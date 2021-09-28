@@ -34,5 +34,7 @@ rule assemble:
     container:
         containers['hifiasm']
     shell: """
-        hifiasm -o {wildcards.sample}/{wildcards.sample} -t {threads} {input.fasta} > {log}
+        hifiasm -o {wildcards.sample}/{wildcards.sample} \
+        -t {threads} \
+        {input.fasta} 2> {log}
     """

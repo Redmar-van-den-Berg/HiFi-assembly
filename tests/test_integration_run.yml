@@ -16,5 +16,13 @@
   files:
       # Test wether the input has been converted to fasta
     - path: GM24385_ASL/GM24385_ASL.fasta.gz
+      # Test wether the log file for bam to fasta gets written
+    - path: log/GM24385_ASL_bam_to_fasta.txt
+      contains:
+        - '[M::bam2fq_mainloop] processed 627 reads'
       # Test wether the HiFi reads were assembled
     - path: GM24385_ASL/GM24385_ASL.bp.r_utg.gfa
+      # Test wether the log file for HiFiasm gets written
+    - path: log/GM24385_ASL_hifiasm.txt
+      contains:
+        - 'M::ha_print_ovlp_stat] # overlaps:'
