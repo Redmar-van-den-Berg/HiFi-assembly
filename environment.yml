@@ -1,7 +1,7 @@
 # This file may be used to create an environment using:
 # $ conda env create --file environment.yml
 # platform: linux-64
-name: snakemake-project
+name: HiFi-assembly
 channels:
   - bioconda
   - conda-forge
