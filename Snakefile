@@ -1,31 +1,38 @@
 
-include: "common.smk"
-pepfile: config["pepfile"]
-
+include: 'common.smk'
+pepfile: config['pepfile']
 
 rule all:
     input:
-        outfile = get_outfile(),
-        samples = expand('{sample}.txt', sample=pep.sample_table["sample_name"])
+        fasta_input = expand('{sample}/{sample}.fasta.gz', sample=pep.sample_table['sample_name']),
+        assembly = expand('{sample}/{sample}.bp.r_utg.gfa', sample=pep.sample_table['sample_name'])
 
-rule example:
-    output: 
-        get_outfile()
+
+rule bam_to_fasta:
+    input:
+        get_bamfile
+    output:
+        '{sample}/{sample}.fasta.gz'
     log:
-        "log/stdout.txt"
+        'log/{sample}_bam_to_fasta.txt'
     container:
-        containers["debian"]
+        containers['samtools']
     shell: """
-        echo "Hello world!" > {output} 2> {log}
+        mkdir -p {wildcards.sample}
+        samtools fasta {input} 2> {log} | gzip > {output}
     """
 
-rule sample:
+rule assemble:
+    input:
+        fasta = rules.bam_to_fasta.output,
     output:
-        "{sample}.txt"
+        r_utg = '{sample}/{sample}.bp.r_utg.gfa'
+    threads:
+        12
     log:
-        "log/{sample}_touch.txt"
+        'log/{sample}_hifiasm.txt'
     container:
-        containers["debian"]
+        containers['hifiasm']
     shell: """
-        touch {output} 2> {log}
+        hifiasm -o {wildcards.sample}/{wildcards.sample} -t {threads} {input.fasta} > {log}
     """

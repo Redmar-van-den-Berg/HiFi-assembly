@@ -14,9 +14,7 @@
     must_not_contain:
       - rror
   files:
-    - path: outputfile.txt
-      contains:
-        - Hello world!
-    - path: sample1.txt
-    - path: sample2.txt
-    - path: sample3.txt
+      # Test wether the input has been converted to fasta
+    - path: GM24385_ASL/GM24385_ASL.fasta.gz
+      # Test wether the HiFi reads were assembled
+    - path: GM24385_ASL/GM24385_ASL.bp.r_utg.gfa

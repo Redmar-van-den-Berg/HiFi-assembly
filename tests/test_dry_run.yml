@@ -11,10 +11,8 @@
   exit_code: 0
   stdout:
     contains:
-      - echo "Hello world!" > outputfile.txt
-      - sample1.txt
-      - sample2.txt
-      - sample3.txt
+      # Test wether the input bamfile is converted to fasta
+      - samtools fasta tests/data/GM24385_ASL.bam 2> log/GM24385_ASL_bam_to_fasta.txt | gzip > GM24385_ASL/GM24385_ASL.fasta.gz
     must_not_contain:
       - rror
   stderr:
