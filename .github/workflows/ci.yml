@@ -57,7 +57,7 @@ jobs:
       if: ${{ failure() }}
       run: >-
         bash -c '
-        for file in $(find /tmp/pytest_workflow_*/log/); do
+        for file in $(find /tmp/pytest_workflow_*/*/log/); do
           echo $file; cat $file
         done
         '
