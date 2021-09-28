@@ -1,0 +1,22 @@
+- name: sanity-snakemake
+  tags:
+    - sanity
+  command: |
+    snakemake --version
+
+- name: sanity-singularity
+  tags:
+    - sanity
+  command: |
+    singularity --version
+  stdout:
+    contains:
+      - singularity version 3
+
+- name: sanity-snakemake-lint
+  tags:
+    - sanity
+  command: >
+    snakemake
+      --lint
+      --config pepfile=tests/pep/project_config.yaml

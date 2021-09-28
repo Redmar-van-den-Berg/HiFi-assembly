@@ -1,0 +1,4 @@
+sample_name, protocol, forward, reverse
+sample1, WGS, sample1_R1.fastq.gz, sample1_R2.fastq.gz
+sample2, WGS, sample2_R1.fastq.gz, sample2_R2.fastq.gz
+sample3, WGS, sample3_R1.fastq.gz, sample3_R2.fastq.gz

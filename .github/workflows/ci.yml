@@ -1,0 +1,55 @@
+name: Continuous Integration
+
+on: [push, pull_request]
+
+defaults:
+  run:
+    # This is needed for miniconda, see:
+    # https://github.com/marketplace/actions/setup-miniconda#important.
+    shell: bash -l {0}
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        test:
+          - sanity-snakemake
+          - sanity-snakemake-lint
+          - sanity-singularity
+          - dry-run-vanilla
+          - integration-vanilla
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: eWaterCycle/setup-singularity@v6
+      with:
+        singularity-version: 3.6.4
+
+    - uses: conda-incubator/setup-miniconda@v2.0.1
+      # https://github.com/conda-incubator/setup-miniconda.
+      with:
+        activate-environment: ${{ github.event.repository.name }}
+        environment-file: environment.yml
+        auto-activate-base: false
+
+    - name: Run test in conda evironment
+      run: >-
+        pytest --keep-workflow-wd-on-fail --tag ${{ matrix.test }}
+
+    - name: Check job stderr messages in case of failure
+      if: ${{ failure() }}
+      run: >-
+        bash -c '
+        for file in $(find /tmp/pytest_workflow_* -name log.err); do
+          echo $file; cat $file
+        done
+        '
+    - name: Check job stdout messages in case of failure
+      if: ${{ failure() }}
+      run: >-
+        bash -c '
+        for file in $(find /tmp/pytest_workflow_* -name log.out); do
+          echo $file; cat $file
+        done
+        '
