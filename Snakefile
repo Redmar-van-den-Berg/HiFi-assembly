@@ -64,13 +64,14 @@ rule map_contigs:
         contigs = rules.assembly_to_fasta.output,
         reference = config['reference']
     output:
-        '{sample}/{sample}_contigs.bam'
+        bam = '{sample}/{sample}_contigs.bam',
+        bai = '{sample}/{sample}_contigs.bam.bai'
     log:
         'log/{sample}_contigs.txt'
     container:
         containers['minimap2']
     shell: """
         minimap2 -a {input.reference} {input.contigs} 2> {log} \
-                | samtools sort -o - >{output}
-        samtools index  {output}
+                | samtools sort -o - >{output.bam}
+        samtools index {output.bam}
     """
