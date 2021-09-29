@@ -2,11 +2,13 @@
 include: 'common.smk'
 pepfile: config['pepfile']
 config = pep.config.get('HiFi-assembly', dict())
+samples = pep.sample_table['sample_name']
 
 rule all:
     input:
-        fasta_input = expand('{sample}/{sample}.fasta.gz', sample=pep.sample_table['sample_name']),
-        assembly = expand('{sample}/{sample}.bp.r_utg.fasta', sample=pep.sample_table['sample_name'])
+        fasta_input = [f'{sample}/{sample}.fasta.gz' for sample in samples],
+        assembly = [f'{sample}/{sample}.bp.r_utg.fasta' for sample in samples],
+        mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples]
 
 
 rule bam_to_fasta:
@@ -55,4 +57,20 @@ rule assembly_to_fasta:
         containers['python']
     shell: """
         python3 {input.script} {input.gfa} {output} 2> {log}
+    """
+rule map_contigs:
+    """ Map the assembled contigs against the reference """
+    input:
+        contigs = rules.assembly_to_fasta.output,
+        reference = config['reference']
+    output:
+        '{sample}/{sample}_contigs.bam'
+    log:
+        'log/{sample}_contigs.txt'
+    container:
+        containers['minimap2']
+    shell: """
+        minimap2 -a {input.reference} {input.contigs} 2> {log} \
+                | samtools sort -o - >{output}
+        samtools index  {output}
     """

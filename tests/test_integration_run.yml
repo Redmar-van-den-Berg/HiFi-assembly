@@ -30,3 +30,5 @@
     - path: GM24385_ASL/GM24385_ASL.bp.r_utg.fasta
       contains:
         - ">utg"
+      # Test wether the contigs were mapped to the reference
+    - path: GM24385_ASL/GM24385_ASL_contigs.bam

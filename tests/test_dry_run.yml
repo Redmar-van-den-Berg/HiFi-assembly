@@ -15,28 +15,11 @@
       - samtools fasta tests/data/GM24385_ASL.bam 2> log/GM24385_ASL_bam_to_fasta.txt | gzip > GM24385_ASL/GM24385_ASL.fasta.gz
       # Test wether we plan to convert the GFA graph to fasta
       - bp.r_utg.fasta
+       # Test wether we plan to map the contigs to the reference
+      - minimap2 -a tests/data/reference/ASL.fasta GM24385_ASL/GM24385_ASL.bp.r_utg.fasta
     contains_regex:
       # Test wether hifiasm-flags are included in the command
       - hifiasm -o GM24385_ASL/GM24385_ASL .* -f0
-    must_not_contain:
-      - rror
-  stderr:
-    must_not_contain:
-      - rror
-
-# Test wether it is possible to leave out the "HiFi-assembly" section
-- name: dry-run-no-HiFi-assembly-section
-  tags:
-    - dry-run
-  command: >
-    snakemake
-      --dryrun
-      --reason
-      --printshellcmds
-      --config pepfile=tests/pep/project_config_no_HiFi-assembly_section.yaml
-      --snakefile Snakefile
-  exit_code: 0
-  stdout:
     must_not_contain:
       - rror
   stderr:
