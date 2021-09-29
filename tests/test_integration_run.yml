@@ -26,3 +26,7 @@
     - path: log/GM24385_ASL_hifiasm.txt
       contains:
         - 'M::ha_print_ovlp_stat] # overlaps:'
+      # Test wether the GFA assembly was successfully converted to fasta
+    - path: GM24385_ASL/GM24385_ASL.bp.r_utg.fasta
+      contains:
+        - ">utg"

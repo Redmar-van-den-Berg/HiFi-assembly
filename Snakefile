@@ -6,7 +6,7 @@ config = pep.config.get('HiFi-assembly', dict())
 rule all:
     input:
         fasta_input = expand('{sample}/{sample}.fasta.gz', sample=pep.sample_table['sample_name']),
-        assembly = expand('{sample}/{sample}.bp.r_utg.gfa', sample=pep.sample_table['sample_name'])
+        assembly = expand('{sample}/{sample}.bp.r_utg.fasta', sample=pep.sample_table['sample_name'])
 
 
 rule bam_to_fasta:
@@ -40,4 +40,19 @@ rule assemble:
         hifiasm -o {wildcards.sample}/{wildcards.sample} \
         -t {threads} {params} \
         {input.fasta} 2> {log}
+    """
+
+rule assembly_to_fasta:
+    """ Convert the gfa assembly graph to fasta format """
+    input:
+        gfa = rules.assemble.output.r_utg,
+        script = srcdir('scripts/gfa-to-fasta.py')
+    output:
+        '{sample}/{sample}.bp.r_utg.fasta'
+    log:
+        'log/{sample}_assembly_to_fasta.txt'
+    container:
+        containers['python']
+    shell: """
+        python3 {input.script} {input.gfa} {output} 2> {log}
     """
