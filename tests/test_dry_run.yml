@@ -13,6 +13,9 @@
     contains:
       # Test wether the input bamfile is converted to fasta
       - samtools fasta tests/data/GM24385_ASL.bam 2> log/GM24385_ASL_bam_to_fasta.txt | gzip > GM24385_ASL/GM24385_ASL.fasta.gz
+    contains_regex:
+      # Test wether hifiasm-flags are included in the command
+      - hifiasm -o GM24385_ASL/GM24385_ASL .* -f0
     must_not_contain:
       - rror
   stderr:

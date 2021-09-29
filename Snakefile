@@ -1,6 +1,7 @@
 
 include: 'common.smk'
 pepfile: config['pepfile']
+config = pep.config.get('HiFi-assembly', dict())
 
 rule all:
     input:
@@ -27,6 +28,8 @@ rule assemble:
         fasta = rules.bam_to_fasta.output,
     output:
         r_utg = '{sample}/{sample}.bp.r_utg.gfa'
+    params:
+        flags = config.get('hifiasm-flags', '')
     threads:
         12
     log:
@@ -35,6 +38,6 @@ rule assemble:
         containers['hifiasm']
     shell: """
         hifiasm -o {wildcards.sample}/{wildcards.sample} \
-        -t {threads} \
+        -t {threads} {params} \
         {input.fasta} 2> {log}
     """
