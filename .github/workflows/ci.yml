@@ -18,7 +18,6 @@ jobs:
           - sanity-snakemake-lint
           - sanity-singularity
           - dry-run-vanilla
-          - dry-run-no-HiFi-assembly-section
           - integration-vanilla
     steps:
     - uses: actions/checkout@v2
