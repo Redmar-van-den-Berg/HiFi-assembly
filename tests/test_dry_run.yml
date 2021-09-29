@@ -21,3 +21,22 @@
   stderr:
     must_not_contain:
       - rror
+
+# Test wether it is possible to leave out the "HiFi-assembly" section
+- name: dry-run-no-HiFi-assembly-section
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_no_HiFi-assembly_section.yaml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    must_not_contain:
+      - rror
+  stderr:
+    must_not_contain:
+      - rror
