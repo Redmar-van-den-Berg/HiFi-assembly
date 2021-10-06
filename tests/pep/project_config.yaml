@@ -5,3 +5,4 @@ HiFi-assembly:
   reference: tests/data/reference/ASL.fasta
   genes:
     ASL: "chr7"
+    ASL2: "chr7"

@@ -24,6 +24,9 @@
       - hifiasm -o GM24385_ASL/GM24385_ASL .* -f0
       # Test wether we extract the correct region for the ASL gene
       - description-from-bam.py.* --region chr7 > GM24385_ASL/ASL.tsv
+      # Test support for multiple genes
+      - GM24385_ASL/ASL.tsv
+      - GM24385_ASL/ASL2.tsv
     must_not_contain:
       - rror
   stderr:
