@@ -15,9 +15,9 @@
       - samtools fasta tests/data/GM24385_ASL.bam 2> log/GM24385_ASL_bam_to_fasta.txt | gzip > GM24385_ASL/GM24385_ASL.fasta.gz
       # Test wether we plan to convert the GFA graph to fasta
       - bp.r_utg.fasta
-       # Test wether we plan to map the contigs to the reference
+      # Test wether we plan to map the contigs to the reference
       - minimap2 -a tests/data/reference/ASL.fasta GM24385_ASL/GM24385_ASL.bp.r_utg.fasta
-       # Test wether we plan to extract a description for ASL
+      # Test wether we plan to extract a description for ASL
       - GM24385_ASL/ASL.tsv
     contains_regex:
       # Test wether hifiasm-flags are included in the command
