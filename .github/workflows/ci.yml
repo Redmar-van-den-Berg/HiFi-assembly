@@ -18,7 +18,9 @@ jobs:
           - sanity-snakemake-lint
           - sanity-singularity
           - dry-run-vanilla
+          - dry-run-two-bamfiles
           - integration-vanilla
+          - integration-two-bamfiles
     steps:
     - uses: actions/checkout@v2
 
