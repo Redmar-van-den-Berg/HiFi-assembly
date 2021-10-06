@@ -11,8 +11,6 @@ rule all:
         mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples],
         descriptions = expand('{sample}/{gene}.tsv', sample=samples, gene=get_genes()),
 
-
-
 rule bam_to_fasta:
     input:
         get_bamfile
