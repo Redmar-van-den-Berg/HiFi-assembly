@@ -26,7 +26,9 @@ def main(args):
     for contig in get_contigs_region(args.bam, args.region):
         name = contig.qname
         seq = contig.seq
-        if seq:
+        # seq can be empty, and supplementary alignments are usually badly
+        # mapped
+        if seq and not contig.is_supplementary:
             description = extractor(ref_seq, contig.seq)
             print(f'{name}\t{description}')
 
