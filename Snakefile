@@ -8,7 +8,9 @@ rule all:
     input:
         fasta_input = [f'{sample}/{sample}.fasta.gz' for sample in samples],
         assembly = [f'{sample}/{sample}.bp.r_utg.fasta' for sample in samples],
-        mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples]
+        mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples],
+        descriptions = expand('{sample}/{gene}.tsv', sample=samples, gene=get_genes()),
+
 
 
 rule bam_to_fasta:
@@ -58,6 +60,7 @@ rule assembly_to_fasta:
     shell: """
         python3 {input.script} {input.gfa} {output} 2> {log}
     """
+
 rule map_contigs:
     """ Map the assembled contigs against the reference """
     input:
@@ -74,4 +77,25 @@ rule map_contigs:
         minimap2 -a {input.reference} {input.contigs} 2> {log} \
                 | samtools sort -o - >{output.bam}
         samtools index {output.bam}
+    """
+
+rule extract_description:
+    """ Extract the gene description from the mapped contigs """
+    input:
+        contigs = rules.map_contigs.output.bam,
+        reference = config['reference'],
+        script = srcdir('scripts/description-from-bam.py')
+    output:
+        '{sample}/{gene}.tsv'
+    params:
+        region = get_region
+    log:
+        'log/{sample}_{gene}.log'
+    container:
+        containers['description-extractor']
+    shell: """
+        python3 {input.script} \
+            --bam {input.contigs} \
+            --reference {input.reference} \
+            --region {params.region} > {output} 2> {log}
     """

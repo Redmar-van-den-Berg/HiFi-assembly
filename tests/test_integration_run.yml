@@ -34,3 +34,5 @@
     - path: GM24385_ASL/GM24385_ASL_contigs.bam
       # Test wether bai file exists
     - path: GM24385_ASL/GM24385_ASL_contigs.bam.bai
+      # Test wether descriptions are extracted for ASL
+    - path: GM24385_ASL/ASL.tsv

@@ -1,4 +1,5 @@
 containers = {
+        'description-extractor': 'docker://lumc/description_extractor:0.2',
         'python': 'docker://python:latest',
         'hifiasm': 'docker://quay.io/biocontainers/hifiasm:0.16.1--h2e03b76_0',
         # samtools 1.12, minimap 2.20
@@ -8,3 +9,11 @@ containers = {
 
 def get_bamfile(wildcards):
     return pep.sample_table.loc[wildcards.sample, 'bamfile']
+
+def get_genes():
+    """ Extract the gene names from the configuration """
+    return list(config['genes'])
+
+def get_region(wildcards):
+    """ Return the region for the gene wildcard """
+    return config['genes'][wildcards.gene]
