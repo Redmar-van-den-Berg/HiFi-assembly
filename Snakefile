@@ -73,8 +73,10 @@ rule map_contigs:
         'log/{sample}_contigs.txt'
     container:
         containers['minimap2']
+    threads:
+        12
     shell: """
-        minimap2 -a {input.reference} {input.contigs} 2> {log} \
+        minimap2 -a {input.reference} {input.contigs} -t {threads} 2> {log} \
                 | samtools sort -o - >{output.bam}
         samtools index {output.bam}
     """
