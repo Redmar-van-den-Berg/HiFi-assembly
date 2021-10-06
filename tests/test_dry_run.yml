@@ -6,7 +6,7 @@
       --dryrun
       --reason
       --printshellcmds
-      --config pepfile=tests/pep/project_config.yaml
+      --config pepfile=tests/pep/project_config.yml
       --snakefile Snakefile
   exit_code: 0
   stdout:

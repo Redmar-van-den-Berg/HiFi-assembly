@@ -19,4 +19,4 @@
   command: >
     snakemake
       --lint
-      --config pepfile=tests/pep/project_config.yaml
+      --config pepfile=tests/pep/project_config.yml

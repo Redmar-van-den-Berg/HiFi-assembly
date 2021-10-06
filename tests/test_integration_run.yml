@@ -8,7 +8,7 @@
       --jobs 1
       --latency-wait 120
       --use-singularity --singularity-args ' --cleanenv --bind /tmp'
-      --config pepfile=tests/pep/project_config.yaml
+      --config pepfile=tests/pep/project_config.yml
       --snakefile Snakefile
   stderr:
     must_not_contain:
