@@ -13,7 +13,7 @@ rule all:
 
 rule bam_to_fasta:
     input:
-        get_bamfile
+        get_bamfiles
     output:
         '{sample}/{sample}.fasta.gz'
     log:
@@ -21,8 +21,16 @@ rule bam_to_fasta:
     container:
         containers['samtools']
     shell: """
+        # Make sure the output folder exists
         mkdir -p {wildcards.sample}
-        samtools fasta {input} 2> {log} | gzip > {output}
+
+        # Remove the output file if it exists, since we will be appending
+        rm -f {output} {log}
+
+        for bamfile in {input}; do
+            # Gzip files can be appended together
+            samtools fasta $bamfile 2>> {log} | gzip >> {output}
+        done
     """
 
 rule assemble:

@@ -7,8 +7,16 @@ containers = {
         'samtools': 'docker://quay.io/biocontainers/samtools:1.13--h8c37831_0'
 }
 
-def get_bamfile(wildcards):
-    return pep.sample_table.loc[wildcards.sample, 'bamfile']
+def get_bamfiles(wildcards):
+    """ Return a list of bamfiles for sample """
+    bamfiles = pep.sample_table.loc[wildcards.sample, 'bamfile']
+
+    # If a single bamfile is specified, bamfiles will be a string
+    if isinstance(bamfiles, str):
+        return [bamfiles]
+    # If multiple bam files were specified, bamfiles will be a list
+    else:
+        return bamfiles
 
 def get_genes():
     """ Extract the gene names from the configuration """
