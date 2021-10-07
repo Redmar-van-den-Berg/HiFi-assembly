@@ -78,36 +78,45 @@ def trim_multiple_descriptions(description, ref_size):
 def trim_description(description, ref_size):
     """ Trim insertions / deletions at the edges
 
-    >>> identical = '='
-    >>> contained = '[1_3del;13_20del]'
-    >>> end_missing = '17_20del'
-    >>> begin_missing = '1_3del'
-    >>> ref_contained = '[0_1insWWW;20_21insWWW]'
+    1. Remove the first variant from the description if:
+        a. It is an insertion at the beginning of the reference
+        b. It is a deletion at the beginning of the reference
+    2. Remove the last variant from the description if:
+        a. It is an insertion at the end of the reference
+        b. It is a deletion at the end of the reference
+
+    # If the sequences are identical ('='), we should change nothing
+    >>> trim_description('=', 20)
+    '='
+
+    # If the sequence is fully contained in the larger reference
+    >>> trim_description('[1_3del;13_20del]', 20)
+    '='
+
+    # If the end is missing from the sequence
+    >>> trim_description('17_20del', 20)
+    '='
+
+    # If the beginning is missing from the sequence
+    >>> trim_description('1_3del', 20)
+    '='
+
+    # If the sequence matches but is larger than the reference
+    >>> trim_description('[0_1insWWW;20_21insWWW]', 20)
+    '='
+
+    # If the sequence has a prefix, and is missing the end of the reference
     >>> has_prefix = '[0_1insWWW;13_20del]'
-    >>> two_mutations = '[5H>Q;12L>Q]'
-
-    >>> trim_description(identical, 20)
-    '='
-
-    >>> trim_description(contained, 20)
-    '='
-
-    >>> trim_description(end_missing, 20)
-    '='
-
-    >>> trim_description(begin_missing, 20)
-    '='
-
-    >>> trim_description(ref_contained, 20)
-    '='
-
     >>> trim_description(has_prefix, 20)
     '='
 
+    # If the reference is larger, the deletion no longer covers the end and
+    # should not be trimmed
     >>> trim_description(has_prefix, 21)
     '13_20del'
 
-    >>> trim_description(two_mutations, 20)
+    # If there are two mutations that cannot be trimmed
+    >>> trim_description('[5H>Q;12L>Q]', 20)
     '[5H>Q;12L>Q]'
     """
     # If there are multiple descriptions
