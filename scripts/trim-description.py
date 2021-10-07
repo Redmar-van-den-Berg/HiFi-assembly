@@ -66,6 +66,10 @@ def trim_multiple_descriptions(description, ref_size):
     # If there are now no variants left
     if not variants:
         return '='
+    # If there is only a single variant left
+    if len(variants) == 1:
+        return variants[0]
+
 
 def trim_description(description, ref_size):
     """ Trim insertions / deletions at the edges
@@ -75,6 +79,7 @@ def trim_description(description, ref_size):
     >>> end_missing = '17_20del'
     >>> begin_missing = '1_3del'
     >>> ref_contained = '[0_1insWWW;20_21insWWW]'
+    >>> has_prefix = '[0_1insWWW;13_20del]'
 
     >>> trim_description(identical, 20)
     '='
@@ -90,6 +95,12 @@ def trim_description(description, ref_size):
 
     >>> trim_description(ref_contained, 20)
     '='
+
+    >>> trim_description(has_prefix, 20)
+    '='
+
+    >>> trim_description(has_prefix, 21)
+    '13_20del'
     """
     # If there are multiple descriptions
     if '[' in description:
