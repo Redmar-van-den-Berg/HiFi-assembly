@@ -24,18 +24,43 @@ def trim_single_description(description, ref_size):
     if re.match('1_\d+del', description):
         return '='
 
+def trim_first_variant(variant):
+    """ Determine wether the first variant can safely be trimmed
+    """
+    # If the first variant is a deletion starting at 1
+    if re.match('1_\d+del', variant):
+        return True
+    # If the first variant is an extention of the reference starting at 0
+    elif re.match('0_1ins\w+', variant):
+        return True
+
+    return False
+
+
+def trim_last_variant(variant, ref_size):
+    """ Determine wether the last variant can safely be trimmed
+    """
+    # If the last variant is a deletion till the end of the reference
+    if re.match(f'\d+_{ref_size}del', variant):
+        return True
+    elif re.match(f'{ref_size}_{ref_size+1}ins\w+', variant):
+        return True
+    return False
+
+
 def trim_multiple_descriptions(description, ref_size):
     """ Trim the first and last description, if safe
     """
-    # If there is only a single variant
     # Get the list of variants
     variants = description[1:-1].split(';')
-    # If the first variant is a deletion starting at 1
-    if re.match('1_\d+del', variants[0]):
-        variants.pop(0)
 
-    # If the second variant is a deletion till the end of the reference
-    if re.match(f'\d+_{ref_size}del', variants[-1]):
+    # Get the first and last variants
+    first_variant = variants[0]
+    last_variant = variants[-1]
+
+    if trim_first_variant(first_variant):
+        variants.pop(0)
+    if trim_last_variant(last_variant, ref_size):
         variants.pop(-1)
 
     # If there are now no variants left
@@ -49,6 +74,7 @@ def trim_description(description, ref_size):
     >>> contained = '[1_3del;13_20del]'
     >>> end_missing = '17_20del'
     >>> begin_missing = '1_3del'
+    >>> ref_contained = '[0_1insWWW;20_21insWWW]'
 
     >>> trim_description(identical, 20)
     '='
@@ -60,6 +86,9 @@ def trim_description(description, ref_size):
     '='
 
     >>> trim_description(begin_missing, 20)
+    '='
+
+    >>> trim_description(ref_contained, 20)
     '='
     """
     # If there are multiple descriptions
