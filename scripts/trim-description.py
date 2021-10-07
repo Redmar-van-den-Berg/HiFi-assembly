@@ -69,6 +69,10 @@ def trim_multiple_descriptions(description, ref_size):
     # If there is only a single variant left
     if len(variants) == 1:
         return variants[0]
+    else:
+        # Put it back in the original list format
+        # e.g. ['5H>Q', '12L>Q'] -> '[5H>Q;12L>Q]'
+        return f'[{";".join(variants)}]'
 
 
 def trim_description(description, ref_size):
@@ -80,6 +84,7 @@ def trim_description(description, ref_size):
     >>> begin_missing = '1_3del'
     >>> ref_contained = '[0_1insWWW;20_21insWWW]'
     >>> has_prefix = '[0_1insWWW;13_20del]'
+    >>> two_mutations = '[5H>Q;12L>Q]'
 
     >>> trim_description(identical, 20)
     '='
@@ -101,6 +106,9 @@ def trim_description(description, ref_size):
 
     >>> trim_description(has_prefix, 21)
     '13_20del'
+
+    >>> trim_description(two_mutations, 20)
+    '[5H>Q;12L>Q]'
     """
     # If there are multiple descriptions
     if '[' in description:
