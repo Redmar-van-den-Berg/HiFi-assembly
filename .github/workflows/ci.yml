@@ -25,6 +25,7 @@ jobs:
           - dry-run-two-bamfiles
           - integration-vanilla
           - integration-two-bamfiles
+          - doctest-trim-descriptions
     steps:
     - uses: actions/checkout@v2
 

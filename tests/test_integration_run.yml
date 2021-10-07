@@ -60,3 +60,9 @@
     - path: GM24385_ASL/GM24385_ASL_contigs.bam.bai
     # Test wether descriptions are extracted for ASL
     - path: GM24385_ASL/ASL.tsv
+
+# Test the script for trimming descriptions
+- name: doctest-trim-descriptions
+  tags:
+    - integration
+  command: python -m doctest scripts/trim-description.py
