@@ -16,8 +16,12 @@ def trim_single_description(description, ref_size):
     if description == '=':
         return '='
 
-    # If a single variant is a deletion that spans the end of the referene
+    # If a single variant is a deletion that spans the end of the reference
     if re.match(f'\d+_{ref_size}', description):
+        return '='
+
+    # If a single variant is a deletion at the beginning of the reference
+    if re.match('1_\d+del', description):
         return '='
 
 def trim_multiple_descriptions(description, ref_size):
@@ -44,6 +48,7 @@ def trim_description(description, ref_size):
     >>> identical = '='
     >>> contained = '[1_3del;13_20del]'
     >>> end_missing = '17_20del'
+    >>> begin_missing = '1_3del'
 
     >>> trim_description(identical, 20)
     '='
@@ -52,6 +57,9 @@ def trim_description(description, ref_size):
     '='
 
     >>> trim_description(end_missing, 20)
+    '='
+
+    >>> trim_description(begin_missing, 20)
     '='
     """
     # If there are multiple descriptions
