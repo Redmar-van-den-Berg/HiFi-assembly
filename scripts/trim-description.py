@@ -110,6 +110,18 @@ def trim_description(description, ref_size):
     # If there are two mutations that cannot be trimmed
     >>> trim_description('[5H>Q;12L>Q]', 20)
     '[5H>Q;12L>Q]'
+
+    # If there are two mutation, one that should be trimmed
+    >>> trim_description('[0_1insW;5H>Q]', 20)
+    '5H>Q'
+
+    # If there are three mutations, two that should be trimmed
+    >>> trim_description('[0_1insW;5H>Q;20_21insQ]', 20)
+    '5H>Q'
+
+    # If there are four mutations, two that should be trimmed
+    >>> trim_description('[0_1insW;5H>Q;12L>Q;20_21insQ]', 20)
+    '[5H>Q;12L>Q]'
     """
     # If there are multiple descriptions
     if '[' in description:
