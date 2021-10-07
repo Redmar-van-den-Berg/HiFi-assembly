@@ -4,25 +4,17 @@ import argparse
 import re
 
 
-def trim_single_description(description, ref_size):
-    """ Trim a single description, if safe
-    >>> identical = '='
+def trim_single_description(desc, ref_size):
+    """ Trim a single description if safe
 
-    trim_single_description(identical, 20)
-    '='
+    If it can be trimmed, we return '='
+    If it cannot be trimmed, we return desc directly
     """
-    # If the description is that the sequence is identical to the reference, we
-    # have nothing to trim
-    if description == '=':
+    if trim_first_variant(desc) or trim_last_variant(desc, ref_size):
         return '='
+    else:
+        return desc
 
-    # If a single variant is a deletion that spans the end of the reference
-    if re.match(f'\d+_{ref_size}', description):
-        return '='
-
-    # If a single variant is a deletion at the beginning of the reference
-    if re.match('1_\d+del', description):
-        return '='
 
 def trim_first_variant(variant):
     """ Determine wether the first variant can safely be trimmed
