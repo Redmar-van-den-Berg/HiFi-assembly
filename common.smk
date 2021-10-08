@@ -20,7 +20,15 @@ def get_bamfiles(wildcards):
 
 def get_genes():
     """ Extract the gene names from the configuration """
-    return list(config['genes'])
+    # Make sure the order of the genes is always the same
+    return sorted(list(config['genes']))
+
+def get_regions():
+    """ Extract the gene regions from the configuration.
+
+    In the same order as get_genes()
+    """
+    return [config['genes'][gene] for gene in get_genes()]
 
 def get_region(wildcards):
     """ Return the region for the gene wildcard """

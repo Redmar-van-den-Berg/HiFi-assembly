@@ -10,6 +10,28 @@ rule all:
         assembly = [f'{sample}/{sample}.bp.r_utg.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples],
         descriptions = expand('{sample}/{gene}.tsv', sample=samples, gene=get_genes()),
+        gene_size = 'gene_size.tsv'
+
+rule get_gene_size:
+    input:
+        reference = config['reference'],
+        script = srcdir('scripts/gene_size.py')
+    output:
+        'gene_size.tsv'
+    params:
+        genes = get_genes(),
+        regions = get_regions()
+    log:
+        'log/gene_size.log'
+    container:
+        containers['description-extractor']
+    shell: """
+        python3 {input.script} \
+                --reference {input.reference} \
+                --genes {params.genes} \
+                --regions {params.regions} \
+                > {output} 2>{log}
+    """
 
 rule bam_to_fasta:
     input:

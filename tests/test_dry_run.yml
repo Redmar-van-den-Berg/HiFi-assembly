@@ -29,6 +29,9 @@
       # Test support for multiple genes
       - GM24385_ASL/ASL.tsv
       - GM24385_ASL/ASL2.tsv
+      # Test wether we correctly determine the gene size
+      - "--genes ASL ASL2"
+      - "--regions chr7 chr7"
     must_not_contain:
       - rror
   stderr:
