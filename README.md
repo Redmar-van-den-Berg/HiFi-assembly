@@ -62,6 +62,6 @@ differences when the contigs are either larger or smaller than the reference.
 The following output files are the most relevant
 | File path                         | Explanation                             |
 | --------------------------------- | --------------------------------------- |
-| sample/sample_gene_contigs.bam    | The contigs mapped to the reference     |
+| sample/sample_contigs.bam         | The contigs mapped to the reference     |
 | sample/gene.raw.tsv               | The raw descriptions for each contig    |
 | sample/gene.trimmed.tsv           | The trimmed descriptions for each contig|
