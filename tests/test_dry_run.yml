@@ -18,17 +18,17 @@
       # Test wether we plan to map the contigs to the reference
       - minimap2 -a tests/data/reference/ASL.fasta GM24385_ASL/GM24385_ASL.bp.r_utg.fasta
       # Test wether we plan to extract a description for ASL
-      - GM24385_ASL/ASL.tsv
+      - GM24385_ASL/ASL.raw.tsv
     contains_regex:
       # Test wether the input is a single bamfile
       - "input: tests/data/GM24385_ASL.bam$"
       # Test wether hifiasm-flags are included in the command
       - hifiasm -o GM24385_ASL/GM24385_ASL .* -f0
       # Test wether we extract the correct region for the ASL gene
-      - description-from-bam.py.* --region chr7 > GM24385_ASL/ASL.tsv
+      - description-from-bam.py.* --region chr7 > GM24385_ASL/ASL.raw.tsv
       # Test support for multiple genes
-      - GM24385_ASL/ASL.tsv
-      - GM24385_ASL/ASL2.tsv
+      - GM24385_ASL/ASL.raw.tsv
+      - GM24385_ASL/ASL2.raw.tsv
       # Test wether we correctly determine the gene size
       - "--genes ASL ASL2"
       - "--regions chr7 chr7"
@@ -52,11 +52,11 @@
   stdout:
     contains:
       # Test wether we plan to extract a description for ASL
-      - GM24385_ASL/ASL.tsv
+      - GM24385_ASL/ASL.raw.tsv
     contains_regex:
       # Test wether the input are two bamfiles
       - "input: tests/data/GM24385_ASL.bam, tests/data/GM24385_ASL.bam$"
-      - GM24385_ASL/ASL2.tsv
+      - GM24385_ASL/ASL2.raw.tsv
     must_not_contain:
       - rror
   stderr:

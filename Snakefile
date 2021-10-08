@@ -9,10 +9,10 @@ rule all:
         fasta_input = [f'{sample}/{sample}.fasta.gz' for sample in samples],
         assembly = [f'{sample}/{sample}.bp.r_utg.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples],
-        descriptions = expand('{sample}/{gene}.tsv', sample=samples, gene=get_genes()),
+        descriptions = expand('{sample}/{gene}.raw.tsv', sample=samples, gene=get_genes()),
         gene_size = 'gene_size.tsv'
 
-rule get_gene_size:
+rule determine_gene_size:
     input:
         reference = config['reference'],
         script = srcdir('scripts/gene-size.py')
@@ -116,7 +116,7 @@ rule extract_description:
         reference = config['reference'],
         script = srcdir('scripts/description-from-bam.py')
     output:
-        '{sample}/{gene}.tsv'
+        '{sample}/{gene}.raw.tsv'
     params:
         region = get_region
     log:

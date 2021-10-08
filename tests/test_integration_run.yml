@@ -35,7 +35,7 @@
     # Test wether bai file exists
     - path: GM24385_ASL/GM24385_ASL_contigs.bam.bai
     # Test wether descriptions are extracted for ASL
-    - path: GM24385_ASL/ASL.tsv
+    - path: GM24385_ASL/ASL.raw.tsv
     # Test the size of the specified regions
     - path: gene_size.tsv
       contains:
@@ -64,7 +64,7 @@
     # Test wether bai file exists
     - path: GM24385_ASL/GM24385_ASL_contigs.bam.bai
     # Test wether descriptions are extracted for ASL
-    - path: GM24385_ASL/ASL.tsv
+    - path: GM24385_ASL/ASL.raw.tsv
 
 # Test the script for trimming descriptions
 - name: doctest-trim-descriptions
