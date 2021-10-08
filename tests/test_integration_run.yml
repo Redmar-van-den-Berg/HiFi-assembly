@@ -15,37 +15,37 @@
       - rror
   files:
     # Test wether the input has been converted to fasta
-    - path: GM24385_ASL/GM24385_ASL.fasta.gz
+    - path: GM24385/GM24385.fasta.gz
     # Test wether the log file for bam to fasta gets written
-    - path: log/GM24385_ASL_bam_to_fasta.txt
+    - path: log/GM24385_bam_to_fasta.txt
       contains:
         - '[M::bam2fq_mainloop] processed 627 reads'
     # Test wether the HiFi reads were assembled
-    - path: GM24385_ASL/GM24385_ASL.bp.r_utg.gfa
+    - path: GM24385/GM24385.bp.r_utg.gfa
     # Test wether the log file for HiFiasm gets written
-    - path: log/GM24385_ASL_hifiasm.txt
+    - path: log/GM24385_hifiasm.txt
       contains:
         - 'M::ha_print_ovlp_stat] # overlaps:'
     # Test wether the GFA assembly was successfully converted to fasta
-    - path: GM24385_ASL/GM24385_ASL.bp.r_utg.fasta
+    - path: GM24385/GM24385.bp.r_utg.fasta
       contains:
         - ">utg"
     # Test wether the contigs were mapped to the reference
-    - path: GM24385_ASL/GM24385_ASL_contigs.bam
+    - path: GM24385/GM24385_contigs.bam
     # Test wether bai file exists
-    - path: GM24385_ASL/GM24385_ASL_contigs.bam.bai
+    - path: GM24385/GM24385_contigs.bam.bai
     # Test wether descriptions are extracted for ASL
-    - path: GM24385_ASL/ASL.raw.tsv
+    - path: GM24385/ASL.raw.tsv
     # Test the size of the specified regions
     - path: gene_size.tsv
       contains:
         - "ASL\t17758"
         - "ASL2\t17758"
     # Test wether we trimmed the descriptions
-    - path: GM24385_ASL/ASL.raw.tsv
+    - path: GM24385/ASL.raw.tsv
       contains:
         - '17758_17759insAATTTTTCATAAAAGAACTCCACAGCTATTAGCAGTCT'
-    - path: GM24385_ASL/ASL.trimmed.tsv
+    - path: GM24385/ASL.trimmed.tsv
       must_not_contain:
         - '17758_17759insAATTTTTCATAAAAGAACTCCACAGCTATTAGCAGTCT'
 
@@ -67,11 +67,11 @@
       - rror
   files:
     # Test wether the contigs were mapped to the reference
-    - path: GM24385_ASL/GM24385_ASL_contigs.bam
+    - path: GM24385/GM24385_contigs.bam
     # Test wether bai file exists
-    - path: GM24385_ASL/GM24385_ASL_contigs.bam.bai
+    - path: GM24385/GM24385_contigs.bam.bai
     # Test wether descriptions are extracted for ASL
-    - path: GM24385_ASL/ASL.raw.tsv
+    - path: GM24385/ASL.raw.tsv
 
 # Test the script for trimming descriptions
 - name: doctest-trim-descriptions

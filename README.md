@@ -37,7 +37,7 @@ HiFi-assembly:
 The samples are defined in a simple csv file.
 ```csv
 sample_name,bamfile
-GM24385_ASL,tests/data/GM24385_ASL.bam
+GM24385,tests/data/GM24385_ASL.bam
 ```
 
 ### Multiple bam files per sample
