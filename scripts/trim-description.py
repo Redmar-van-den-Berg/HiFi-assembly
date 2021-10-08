@@ -134,13 +134,15 @@ def main(args):
     with open(args.descriptions) as fin:
         for line in fin:
             name, description = line.strip('\n').split('\t')
-            trimmed = trim_description(description)
+            trimmed = trim_description(description, args.size)
             print(f'{name}\t{trimmed}')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--descriptions', required=True,
                         help='TSV file of descriptions')
+    parser.add_argument('--size', required=True, type=int,
+                        help='Size of the reference')
 
     args = parser.parse_args()
 

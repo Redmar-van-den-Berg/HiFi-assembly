@@ -41,6 +41,13 @@
       contains:
         - "ASL\t17758"
         - "ASL2\t17758"
+    # Test wether we trimmed the descriptions
+    - path: GM24385_ASL/ASL.raw.tsv
+      contains:
+        - '17758_17759insAATTTTTCATAAAAGAACTCCACAGCTATTAGCAGTCT'
+    - path: GM24385_ASL/ASL.trimmed.tsv
+      must_not_contain:
+        - '17758_17759insAATTTTTCATAAAAGAACTCCACAGCTATTAGCAGTCT'
 
 # Test support for two bam files per sample
 - name: integration-two-bamfiles

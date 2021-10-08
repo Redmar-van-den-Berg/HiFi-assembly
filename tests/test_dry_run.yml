@@ -19,6 +19,8 @@
       - minimap2 -a tests/data/reference/ASL.fasta GM24385_ASL/GM24385_ASL.bp.r_utg.fasta
       # Test wether we plan to extract a description for ASL
       - GM24385_ASL/ASL.raw.tsv
+      # Test wether we plan to trim the descriptions
+      - GM24385_ASL/ASL.trimmed.tsv
     contains_regex:
       # Test wether the input is a single bamfile
       - "input: tests/data/GM24385_ASL.bam$"

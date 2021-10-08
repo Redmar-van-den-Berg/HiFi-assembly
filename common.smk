@@ -33,3 +33,11 @@ def get_regions():
 def get_region(wildcards):
     """ Return the region for the gene wildcard """
     return config['genes'][wildcards.gene]
+
+def get_gene_size(wildcards):
+    """ This function depends on the file created by the determine_gene_size rule """
+    with open('gene_size.tsv') as fin:
+        for line in fin:
+            gene, size = line.strip().split('\t')
+            if gene == wildcards.gene:
+                return size

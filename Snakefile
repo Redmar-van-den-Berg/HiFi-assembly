@@ -9,7 +9,7 @@ rule all:
         fasta_input = [f'{sample}/{sample}.fasta.gz' for sample in samples],
         assembly = [f'{sample}/{sample}.bp.r_utg.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples],
-        descriptions = expand('{sample}/{gene}.raw.tsv', sample=samples, gene=get_genes()),
+        descriptions = expand('{sample}/{gene}.trimmed.tsv', sample=samples, gene=get_genes()),
         gene_size = 'gene_size.tsv'
 
 rule determine_gene_size:
@@ -120,7 +120,7 @@ rule extract_description:
     params:
         region = get_region
     log:
-        'log/{sample}_{gene}.log'
+        'log/{sample}_{gene}_raw.log'
     container:
         containers['description-extractor']
     shell: """
@@ -128,4 +128,31 @@ rule extract_description:
             --bam {input.contigs} \
             --reference {input.reference} \
             --region {params.region} > {output} 2> {log}
+    """
+
+rule trim_description:
+    """ Trim the edges of the descriptions for a gene
+
+        Remove insertions/deletions if they occur at the beginning/end of the
+        reference gene.
+    """
+    input:
+        description = '{sample}/{gene}.raw.tsv',
+        # This input is only used to make sure the gene_size file exists before
+        # this rule is executed
+        gene_size = 'gene_size.tsv',
+        script = srcdir('scripts/trim-description.py')
+    output:
+        trimmed = '{sample}/{gene}.trimmed.tsv'
+    params:
+        # This depends on the gene_size.tsv file
+        size = get_gene_size
+    log:
+        'log/{sample}_{gene}_trimmed.log'
+    container:
+        containers['python']
+    shell: """
+        python3 {input.script} \
+            --descriptions {input.description} \
+            --size {params.size} > {output} 2>{log}
     """
