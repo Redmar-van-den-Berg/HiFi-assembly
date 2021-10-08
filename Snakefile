@@ -15,7 +15,7 @@ rule all:
 rule get_gene_size:
     input:
         reference = config['reference'],
-        script = srcdir('scripts/gene_size.py')
+        script = srcdir('scripts/gene-size.py')
     output:
         'gene_size.tsv'
     params:

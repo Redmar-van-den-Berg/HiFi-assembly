@@ -36,6 +36,11 @@
     - path: GM24385_ASL/GM24385_ASL_contigs.bam.bai
     # Test wether descriptions are extracted for ASL
     - path: GM24385_ASL/ASL.tsv
+    # Test the size of the specified regions
+    - path: gene_size.tsv
+      contains:
+        - "ASL\t17758"
+        - "ASL2\t17758"
 
 # Test support for two bam files per sample
 - name: integration-two-bamfiles
