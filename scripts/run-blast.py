@@ -49,7 +49,6 @@ def jsonify(record):
 
 def better(record1, record2):
     """ Is record1 better than record2 """
-    print(f'{record1} vs {record2}')
     return record1.alignment.hsp.score > record2.alignment.hsp.score
 
 
@@ -66,18 +65,15 @@ def get_best_hits(pb):
             best[name] = record
 
     # Once we are done, we can just return it as a list of records
-    print(best)
     return list(best.values())
 
 
 def main(args):
     cmd = NcbiblastnCommandline(query=args.query, db=args.database)
 
-    print('HELLO')
     with pyBlastFlat(cmd) as pb:
         # Get the best hit for each contig (each contig is only present once)
         records = get_best_hits(pb)
-        print(f"GOT BEST HITS ({len(records)})")
 
         # If json output was requested
         if args.json:
