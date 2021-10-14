@@ -34,20 +34,6 @@
     - path: GM24385/GM24385_contigs.bam
     # Test wether bai file exists
     - path: GM24385/GM24385_contigs.bam.bai
-    # Test wether descriptions are extracted for ASL
-    - path: GM24385/ASL.raw.tsv
-    # Test the size of the specified regions
-    - path: gene_size.tsv
-      contains:
-        - "ASL\t17758"
-        - "ASL2\t17758"
-    # Test wether we trimmed the descriptions
-    - path: GM24385/ASL.raw.tsv
-      contains:
-        - '17758_17759insAATTTTTCATAAAAGAACTCCACAGCTATTAGCAGTCT'
-    - path: GM24385/ASL.trimmed.tsv
-      must_not_contain:
-        - '17758_17759insAATTTTTCATAAAAGAACTCCACAGCTATTAGCAGTCT'
 
 # Test support for two bam files per sample
 - name: integration-two-bamfiles
@@ -70,11 +56,3 @@
     - path: GM24385/GM24385_contigs.bam
     # Test wether bai file exists
     - path: GM24385/GM24385_contigs.bam.bai
-    # Test wether descriptions are extracted for ASL
-    - path: GM24385/ASL.raw.tsv
-
-# Test the script for trimming descriptions
-- name: doctest-trim-descriptions
-  tags:
-    - integration
-  command: python -m doctest scripts/trim-description.py

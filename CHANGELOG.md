@@ -10,7 +10,6 @@ that users understand how the changes affect the new version.
 
 v0.2
 ---------------------------
-+ Add a file with trimmed descriptions for each gene
 + Add support for multiple bam files, see this [example
 configuration](https://github.com/Redmar-van-den-Berg/HiFi-assembly/blob/main/tests/pep/project_config_two_bamfiles.yml)
 

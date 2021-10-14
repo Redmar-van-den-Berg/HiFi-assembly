@@ -9,29 +9,6 @@ rule all:
         fasta_input = [f'{sample}/{sample}.fasta.gz' for sample in samples],
         assembly = [f'{sample}/{sample}.bp.r_utg.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples],
-        descriptions = expand('{sample}/{gene}.trimmed.tsv', sample=samples, gene=get_genes()),
-        gene_size = 'gene_size.tsv'
-
-rule determine_gene_size:
-    input:
-        reference = config['reference'],
-        script = srcdir('scripts/gene-size.py')
-    output:
-        'gene_size.tsv'
-    params:
-        genes = get_genes(),
-        regions = get_regions()
-    log:
-        'log/gene_size.log'
-    container:
-        containers['description-extractor']
-    shell: """
-        python3 {input.script} \
-                --reference {input.reference} \
-                --genes {params.genes} \
-                --regions {params.regions} \
-                > {output} 2>{log}
-    """
 
 rule bam_to_fasta:
     input:
@@ -59,7 +36,14 @@ rule assemble:
     input:
         fasta = rules.bam_to_fasta.output,
     output:
-        r_utg = '{sample}/{sample}.bp.r_utg.gfa'
+        # Haplotype-resolved raw unitig graph.
+        # This graph keeps all haplotype information.
+        r_utg = '{sample}/{sample}.bp.r_utg.gfa',
+
+        # Haplotype-resolved processed unitig graph without small bubbles.
+        # Small bubbles might be caused by somatic mutations or noise in data,
+        # which are not the real haplotype information.
+        p_utg = '{sample}/{sample}.bp.p_utg.gfa'
     params:
         flags = config.get('hifiasm-flags', '')
     threads:
@@ -107,52 +91,4 @@ rule map_contigs:
         minimap2 -a {input.reference} {input.contigs} -t {threads} 2> {log} \
                 | samtools sort -o - >{output.bam}
         samtools index {output.bam}
-    """
-
-rule extract_description:
-    """ Extract the gene description from the mapped contigs """
-    input:
-        contigs = rules.map_contigs.output.bam,
-        reference = config['reference'],
-        script = srcdir('scripts/description-from-bam.py')
-    output:
-        '{sample}/{gene}.raw.tsv'
-    params:
-        region = get_region
-    log:
-        'log/{sample}_{gene}_raw.log'
-    container:
-        containers['description-extractor']
-    shell: """
-        python3 {input.script} \
-            --bam {input.contigs} \
-            --reference {input.reference} \
-            --region {params.region} > {output} 2> {log}
-    """
-
-rule trim_description:
-    """ Trim the edges of the descriptions for a gene
-
-        Remove insertions/deletions if they occur at the beginning/end of the
-        reference gene.
-    """
-    input:
-        description = '{sample}/{gene}.raw.tsv',
-        # This input is only used to make sure the gene_size file exists before
-        # this rule is executed
-        gene_size = 'gene_size.tsv',
-        script = srcdir('scripts/trim-description.py')
-    output:
-        trimmed = '{sample}/{gene}.trimmed.tsv'
-    params:
-        # This depends on the gene_size.tsv file
-        size = get_gene_size
-    log:
-        'log/{sample}_{gene}_trimmed.log'
-    container:
-        containers['python']
-    shell: """
-        python3 {input.script} \
-            --descriptions {input.description} \
-            --size {params.size} > {output} 2>{log}
     """
