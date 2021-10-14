@@ -3,6 +3,4 @@ sample_table: "samples.csv"
 HiFi-assembly:
   hifiasm-flags: "-f0 "
   reference: tests/data/reference/ASL.fasta
-  genes:
-    ASL: "chr7"
-    ASL2: "chr7:1-17758"
+  genes: tests/data/reference/ASL.fasta

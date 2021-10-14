@@ -9,6 +9,8 @@ rule all:
         fasta_input = [f'{sample}/{sample}.fasta.gz' for sample in samples],
         assembly = [f'{sample}/{sample}.bp.r_utg.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples],
+        fasta = [f'{sample}/{sample}_contigs_blast.fasta' for sample in samples],
+        json = [f'{sample}/{sample}_contigs_blast.json' for sample in samples],
 
 rule bam_to_fasta:
     input:
@@ -91,4 +93,25 @@ rule map_contigs:
         minimap2 -a {input.reference} {input.contigs} -t {threads} 2> {log} \
                 | samtools sort -o - >{output.bam}
         samtools index {output.bam}
+    """
+
+rule blast_genes:
+    """ Blast the specified genes against the assembled contigs """
+    input:
+        genes = config['genes'],
+        contigs = rules.assembly_to_fasta.output,
+        script = srcdir('scripts/run-blast.py')
+    output:
+        json = '{sample}/{sample}_contigs_blast.json',
+        fasta = '{sample}/{sample}_contigs_blast.fasta'
+    log:
+        'log/{sample}_blast_genes.txt'
+    container:
+        containers['pyblast']
+    shell: """
+        python3 {input.script} \
+            --database {input.contigs} \
+            --query {input.genes} \
+            --json {output.json} \
+            --fasta {output.fasta} 2> {log}
     """

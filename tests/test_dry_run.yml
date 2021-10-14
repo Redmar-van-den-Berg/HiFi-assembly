@@ -11,17 +11,20 @@
   exit_code: 0
   stdout:
     contains:
-      # Test wether the input bamfile is converted to fasta
+      # Test whether the input bamfile is converted to fasta
       - samtools fasta $bamfile 2>> log/GM24385_bam_to_fasta.txt | gzip >> GM24385/GM24385.fasta.gz
-      # Test wether we plan to convert the GFA graph to fasta
+      # Test whether we plan to convert the GFA graph to fasta
       - bp.r_utg.fasta
-      # Test wether we plan to map the contigs to the reference
+      # Test whether we plan to map the contigs to the reference
       - minimap2 -a tests/data/reference/ASL.fasta GM24385/GM24385.bp.r_utg.fasta
     contains_regex:
-      # Test wether the input is a single bamfile
+      # Test whether the input is a single bamfile
       - "input: tests/data/GM24385_ASL.bam$"
-      # Test wether hifiasm-flags are included in the command
+      # Test whether hifiasm-flags are included in the command
       - hifiasm -o GM24385/GM24385 .* -f0
+      # Test whether we plan to run blast
+      - GM24385/GM24385_contigs_blast.json
+      - GM24385/GM24385_contigs_blast.fasta
     must_not_contain:
       - rror
   stderr:
@@ -41,7 +44,7 @@
   exit_code: 0
   stdout:
     contains_regex:
-      # Test wether the input are two bamfiles
+      # Test whether the input are two bamfiles
       - "input: tests/data/GM24385_ASL.bam, tests/data/GM24385_ASL.bam$"
     must_not_contain:
       - rror
