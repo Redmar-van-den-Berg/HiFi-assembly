@@ -62,10 +62,28 @@
     # Test whether the blast results contain hits for ASL and CYP2D6
     - path: sample2/sample2_contigs_blast.fasta
       contains:
-        - ">chr7 ASL NC_000007.14"
+        - ">ASL NC_000007.14"
         - ">CYP2D6 LRG_303g (genomic sequence)"
       contains_regex:
         # Test presence of the best blast hit, we don't care about the contig
         # number
-        - "CYP2D6.*:14130-2816"
-        - ">chr7 ASL.*:1-16454"
+        - ">CYP2D6.*:14130-2816"
+        - ">ASL.*:1-16454"
+    # Test wether the per-gene blast output exists
+    - path: GM24385/genes/ASL.fasta
+    - path: sample2/genes/ASL.fasta
+      contains_regex:
+        # Header for the best ASL hit
+        - "ASL.*utg00000.*:1-16454"
+      must_not_contain_regex:
+        # Header for second best ASL hit (on the same contig). Should be
+        # removed
+        - ">ASL.*utg00000.*:2098-1788"
+    - path: sample2/genes/CYP2D6.fasta
+      must_not_contain_regex:
+        # Header for the best CYP2D6 hit
+        - ">CYP2D6.*utg00000.*:14130-2816"
+      must_not_contain_regex:
+        # Header for second best CYP2D6 hit (on the same contig). Should be
+        # removed
+        - ">CYP2D6.*utg00000.*:21480-17998"

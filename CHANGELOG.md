@@ -10,6 +10,7 @@ that users understand how the changes affect the new version.
 
 v0.2
 ---------------------------
++ Output only the best hit to the target genes for each contig
 + Make both 'reference' and 'genes' inputs optional
 + Add functionality for blasting genes of interest against the assembly
 + Add support for multiple bam files, see this [example

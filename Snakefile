@@ -103,15 +103,21 @@ rule blast_genes:
         script = srcdir('scripts/run-blast.py')
     output:
         json = '{sample}/{sample}_contigs_blast.json',
+        folder = directory('{sample}/genes'),
         fasta = '{sample}/{sample}_contigs_blast.fasta'
     log:
         'log/{sample}_blast_genes.txt'
     container:
         containers['pyblast']
     shell: """
+
+        # Don't use mkdir -p here, since script appends to output files
+        mkdir {output.folder} 2> {log}
+
         python3 {input.script} \
             --database {input.contigs} \
             --query {input.genes} \
             --json {output.json} \
-            --fasta {output.fasta} 2> {log}
+            --genes {output.folder} \
+            --fasta {output.fasta} 2>> {log}
     """

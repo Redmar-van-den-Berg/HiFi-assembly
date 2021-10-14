@@ -47,12 +47,37 @@ def jsonify(record):
     return data
 
 
+def better(record1, record2):
+    """ Is record1 better than record2 """
+    print(f'{record1} vs {record2}')
+    return record1.alignment.hsp.score > record2.alignment.hsp.score
+
+
+def get_best_hits(pb):
+    """ Return the best hit for each contig in --database """
+    best = dict()
+
+    for record in pb:
+        # The subject name is the name of the contig
+        name = record.alignment.hit_def
+        if name not in best:
+            best[name] = record
+        elif better(record, best[name]):
+            best[name] = record
+
+    # Once we are done, we can just return it as a list of records
+    print(best)
+    return list(best.values())
+
+
 def main(args):
     cmd = NcbiblastnCommandline(query=args.query, db=args.database)
 
+    print('HELLO')
     with pyBlastFlat(cmd) as pb:
-        # Just yank all records into memory
-        records = list(pb)
+        # Get the best hit for each contig (each contig is only present once)
+        records = get_best_hits(pb)
+        print(f"GOT BEST HITS ({len(records)})")
 
         # If json output was requested
         if args.json:
@@ -65,7 +90,16 @@ def main(args):
             with open(args.fasta, 'w') as fout:
                 for record in records:
                     SeqIO.write(pyBlastFlat.fasta(record), fout, 'fasta')
-                
+
+        # If we need to write the genes
+        if args.genes:
+            for record in records:
+                # Determine the name of the query, up to the first space
+                query_name = record.query.split(' ')[0]
+                fname = f'{args.genes}/{query_name}.fasta'
+                with open(fname, 'a') as fout:
+                    SeqIO.write(pyBlastFlat.fasta(record), fout, 'fasta')
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -77,7 +111,11 @@ if __name__ == '__main__':
         help='Output blast results in JSON format')
     parser.add_argument('--fasta', required=False,
         help='Output blast results in FASTA format')
+    parser.add_argument('--genes', required=False,
+        help=(
+            'Output the best hit for each sequence in database to this folder.'
+            'Use the names of the sequences in query as file name.')
+    )
 
     args = parser.parse_args()
     main(args)
-
