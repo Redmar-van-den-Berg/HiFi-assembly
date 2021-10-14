@@ -45,7 +45,7 @@
   stdout:
     contains_regex:
       # Test whether the input are two bamfiles
-      - "input: tests/data/GM24385_ASL.bam, tests/data/GM24385_ASL.bam$"
+      - "input: tests/data/GM24385_ASL.bam, tests/data/GM24385_CYP2D6-CYP2D7.bam$"
     must_not_contain:
       - rror
   stderr:

@@ -59,3 +59,13 @@
     - path: GM24385/GM24385_contigs.bam
     # Test whether bai file exists
     - path: GM24385/GM24385_contigs.bam.bai
+    # Test whether the blast results contain hits for ASL and CYP2D6
+    - path: sample2/sample2_contigs_blast.fasta
+      contains:
+        - ">chr7 ASL NC_000007.14"
+        - ">CYP2D6 LRG_303g (genomic sequence)"
+      contains_regex:
+        # Test presence of the best blast hit, we don't care about the contig
+        # number
+        - "CYP2D6.*:14130-2816"
+        - ">chr7 ASL.*:1-16454"
