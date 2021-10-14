@@ -24,9 +24,10 @@ jobs:
           - dry-run-vanilla
           - dry-run-two-bamfiles
           - dry-run-minimal
+          - dry-run-reference-only
+          - dry-run-genes-only
           - integration-vanilla
           - integration-two-bamfiles
-          - doctest-trim-descriptions
     steps:
     - uses: actions/checkout@v2
 

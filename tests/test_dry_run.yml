@@ -66,7 +66,53 @@
   exit_code: 0
   stdout:
     must_not_contain:
+      - rule map_contigs
+      - rule blast_genes
       - rror
+  stderr:
+    must_not_contain:
+      - rror
+
+# Configuration file with only reference specified
+- name: dry-run-reference-only
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_reference_only.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    contains:
+      - rule map_contigs
+    must_not_contain:
+      - rror
+      - rule blast_genes
+  stderr:
+    must_not_contain:
+      - rror
+
+# Configuration file with only genes specified
+- name: dry-run-genes-only
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_genes_only.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    contains:
+      - rule blast_genes
+    must_not_contain:
+      - rror
+      - rule map_contigs
   stderr:
     must_not_contain:
       - rror
