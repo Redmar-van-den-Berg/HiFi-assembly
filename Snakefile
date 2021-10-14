@@ -20,7 +20,7 @@ rule bam_to_fasta:
     log:
         'log/{sample}_bam_to_fasta.txt'
     container:
-        containers['samtools']
+        containers['minimap2']
     shell: """
         # Make sure the output folder exists
         mkdir -p {wildcards.sample}
@@ -70,7 +70,7 @@ rule assembly_to_fasta:
     log:
         'log/{sample}_assembly_to_fasta.txt'
     container:
-        containers['python']
+        containers['pyblast']
     shell: """
         python3 {input.script} {input.gfa} {output} 2> {log}
     """
