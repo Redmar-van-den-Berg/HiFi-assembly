@@ -8,9 +8,9 @@ rule all:
     input:
         fasta_input = [f'{sample}/{sample}.fasta.gz' for sample in samples],
         assembly = [f'{sample}/{sample}.bp.r_utg.fasta' for sample in samples],
-        mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples],
-        fasta = [f'{sample}/{sample}_contigs_blast.fasta' for sample in samples],
-        json = [f'{sample}/{sample}_contigs_blast.json' for sample in samples],
+        mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
+        fasta = [f'{sample}/{sample}_contigs_blast.fasta' for sample in samples] if 'genes' in config else [],
+        json = [f'{sample}/{sample}_contigs_blast.json' for sample in samples] if 'genes' in config else [],
 
 rule bam_to_fasta:
     input:
@@ -79,7 +79,7 @@ rule map_contigs:
     """ Map the assembled contigs against the reference """
     input:
         contigs = rules.assembly_to_fasta.output,
-        reference = config['reference']
+        reference = config.get('reference', '')
     output:
         bam = '{sample}/{sample}_contigs.bam',
         bai = '{sample}/{sample}_contigs.bam.bai'
@@ -98,7 +98,7 @@ rule map_contigs:
 rule blast_genes:
     """ Blast the specified genes against the assembled contigs """
     input:
-        genes = config['genes'],
+        genes = config.get('genes', ''),
         contigs = rules.assembly_to_fasta.output,
         script = srcdir('scripts/run-blast.py')
     output:

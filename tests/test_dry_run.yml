@@ -51,3 +51,22 @@
   stderr:
     must_not_contain:
       - rror
+
+# Minimal configuration file, only runs HiFiasm
+- name: dry-run-minimal
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_minimal.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    must_not_contain:
+      - rror
+  stderr:
+    must_not_contain:
+      - rror

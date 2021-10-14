@@ -23,6 +23,7 @@ jobs:
           - sanity-singularity
           - dry-run-vanilla
           - dry-run-two-bamfiles
+          - dry-run-minimal
           - integration-vanilla
           - integration-two-bamfiles
           - doctest-trim-descriptions
