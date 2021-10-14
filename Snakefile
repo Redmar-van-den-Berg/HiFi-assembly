@@ -112,7 +112,11 @@ rule blast_genes:
     shell: """
 
         # Don't use mkdir -p here, since script appends to output files
-        mkdir {output.folder} 2> {log}
+        if [ ! -d {output.folder} ]; then
+            mkdir {output.folder} 2> {log}
+        else
+            rm {output.folder}/*.fasta
+        fi
 
         python3 {input.script} \
             --database {input.contigs} \
