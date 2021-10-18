@@ -144,8 +144,8 @@ rule blast_contigs:
 rule blast_genes:
     """ Blast the specified genes against the assembled contigs """
     input:
-        genes = config.get('genes', ''),
-        contigs = rules.assembly_to_fasta.output,
+        blast_results = rules.blast_contigs.output,
+        genes = config.get('genes', ''), # Not actually used in the script
         script = srcdir('scripts/run-blast.py')
     output:
         json = '{sample}/{sample}_contigs_blast.json',
@@ -165,7 +165,7 @@ rule blast_genes:
         fi
 
         python3 {input.script} \
-            --database {input.contigs} \
+            --database {input.blast_results} \
             --query {input.genes} \
             --json {output.json} \
             --genes {output.folder} \
