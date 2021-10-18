@@ -11,7 +11,6 @@ rule all:
         mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
         fasta = [f'{sample}/{sample}_contigs_blast.fasta' for sample in samples] if 'genes' in config else [],
         json = [f'{sample}/{sample}_contigs_blast.json' for sample in samples] if 'genes' in config else [],
-        xml = [f'{sample}/blastdb/{sample}_genes.xml' for sample in samples] if 'genes' in config else [],
 
 rule bam_to_fasta:
     input:
@@ -99,19 +98,20 @@ rule map_contigs:
 rule make_blast_db:
     """ Create a blast database from the assembled contigs """
     input:
-        contigs = rules.assembly_to_fasta.output
+        contigs = rules.assembly_to_fasta.output,
     params:
         dbname = lambda wildcards, output: output[0][:-4]
     output:
-        nhr = '{sample}/blastdb/{sample}.blastdb.nhr',
-        nin = '{sample}/blastdb/{sample}.blastdb.nin',
-        nsq = '{sample}/blastdb/{sample}.blastdb.nsq'
+        nhr = '{sample}/genes/{sample}.blastdb.nhr',
+        nin = '{sample}/genes/{sample}.blastdb.nin',
+        nsq = '{sample}/genes/{sample}.blastdb.nsq',
+        folder = directory('{sample}/genes'),
     log:
         'log/{sample}_make_blast_db.txt'
     container:
         containers['pyblast']
     shell: """
-        mkdir -p $(dirname {output.nhr}) 2> {log}
+        mkdir -p {output.folder} 2> {log}
 
         makeblastdb \
             -input_type fasta \
@@ -128,7 +128,7 @@ rule blast_contigs:
     params:
         dbname = lambda wildcards, input: input[0][:-4]
     output:
-        xml = '{sample}/blastdb/{sample}_genes.xml'
+        xml = '{sample}/genes/{sample}_blast.xml'
     log:
         'log/{sample}_blast_contigs.txt'
     container:
@@ -141,15 +141,15 @@ rule blast_contigs:
             -out {output} 2> {log}
     """
 
-rule blast_genes:
-    """ Blast the specified genes against the assembled contigs """
+rule parse_blast_results:
+    """ Parse the blast results of the genes against the assembled contigs """
     input:
         blast_results = rules.blast_contigs.output,
         genes = config.get('genes', ''), # Not actually used in the script
+        folder = rules.make_blast_db.output.folder,
         script = srcdir('scripts/run-blast.py')
     output:
         json = '{sample}/{sample}_contigs_blast.json',
-        folder = directory('{sample}/genes'),
         fasta = '{sample}/{sample}_contigs_blast.fasta'
     log:
         'log/{sample}_blast_genes.txt'
@@ -157,17 +157,13 @@ rule blast_genes:
         containers['pyblast']
     shell: """
 
-        # Don't use mkdir -p here, since script appends to output files
-        if [ ! -d {output.folder} ]; then
-            mkdir {output.folder} 2> {log}
-        else
-            rm {output.folder}/*.fasta
-        fi
+        # Make sure there are not fasta files, since script appends to output files
+        rm -f {input.folder}/*.fasta
 
         python3 {input.script} \
             --database {input.blast_results} \
             --query {input.genes} \
             --json {output.json} \
-            --genes {output.folder} \
+            --genes {input.folder} \
             --fasta {output.fasta} 2>> {log}
     """

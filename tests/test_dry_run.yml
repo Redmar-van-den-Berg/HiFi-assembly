@@ -26,9 +26,9 @@
       - GM24385/GM24385_contigs_blast.json
       - GM24385/GM24385_contigs_blast.fasta
       # Test whether we plan to create a blast database
-      - GM24385/blastdb/GM24385.blastdb.nhr
+      - GM24385/genes/GM24385.blastdb.nhr
       # Test whether we plan to run blast
-      - GM24385/blastdb/GM24385_genes.xml
+      - GM24385/genes/GM24385_blast.xml
     must_not_contain:
       - rror
   stderr:
@@ -71,7 +71,7 @@
   stdout:
     must_not_contain:
       - rule map_contigs
-      - rule blast_genes
+      - rule parse_blast_results
       - rror
   stderr:
     must_not_contain:
@@ -94,7 +94,7 @@
       - rule map_contigs
     must_not_contain:
       - rror
-      - rule blast_genes
+      - rule parse_blast_results
   stderr:
     must_not_contain:
       - rror
@@ -113,7 +113,7 @@
   exit_code: 0
   stdout:
     contains:
-      - rule blast_genes
+      - rule parse_blast_results
     must_not_contain:
       - rror
       - rule map_contigs
