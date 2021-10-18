@@ -11,7 +11,7 @@ rule all:
         mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
         fasta = [f'{sample}/{sample}_contigs_blast.fasta' for sample in samples] if 'genes' in config else [],
         json = [f'{sample}/{sample}_contigs_blast.json' for sample in samples] if 'genes' in config else [],
-        nsq = [f'{sample}/blastdb/{sample}.blastdb.nsq' for sample in samples] if 'genes' in config else [],
+        xml = [f'{sample}/blastdb/{sample}_genes.xml' for sample in samples] if 'genes' in config else [],
 
 rule bam_to_fasta:
     input:
@@ -118,6 +118,27 @@ rule make_blast_db:
             -dbtype nucl \
             -in {input} \
             -out {params.dbname} 2>> {log}
+    """
+
+rule blast_contigs:
+    """ Run blast against the blast database of the contigs """
+    input:
+        blastdb = rules.make_blast_db.output.nhr,
+        genes = config.get('genes', ''),
+    params:
+        dbname = lambda wildcards, input: input[0][:-4]
+    output:
+        xml = '{sample}/blastdb/{sample}_genes.xml'
+    log:
+        'log/{sample}_blast_contigs.txt'
+    container:
+        containers['pyblast']
+    shell: """
+        blastn \
+            -outfmt 5 \
+            -query {input.genes} \
+            -db {params.dbname} \
+            -out {output} 2> {log}
     """
 
 rule blast_genes:
