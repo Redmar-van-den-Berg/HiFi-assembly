@@ -25,6 +25,8 @@
       # Test whether we plan to run blast
       - GM24385/GM24385_contigs_blast.json
       - GM24385/GM24385_contigs_blast.fasta
+      # Test whether we plan to create a blast database
+      - GM24385/blastdb/GM24385.blastdb.nhr
     must_not_contain:
       - rror
   stderr:

@@ -37,6 +37,8 @@
     # Test whether the blast output files exist
     - path: GM24385/GM24385_contigs_blast.json
     - path: GM24385/GM24385_contigs_blast.fasta
+    # Test whether we plan to create a blast database
+    - path: GM24385/blastdb/GM24385.blastdb.nhr
 
 # Test support for two bam files per sample
 - name: integration-two-bamfiles
