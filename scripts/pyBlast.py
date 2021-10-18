@@ -72,9 +72,21 @@ class pyBlast():
 
 
     def __enter__(self):
-        self.makeblastdb(self.target, self.dbtype, self.blastdb)
-        self.run_blast(self.cmd)#, self.query, self.target, self.tempdir)
-        self.file_in = open(self.blastout, 'r')
+        # First, we try to guess the filetype of the target.
+        ftype = self._guess_filetype(self.target)
+
+        if ftype == 'fasta':
+            self.makeblastdb(self.target, self.dbtype, self.blastdb)
+            self.run_blast(self.cmd)#, self.query, self.target, self.tempdir)
+            self.file_in = open(self.blastout, 'r')
+        elif ftype == 'blastdb':
+            # The target is already a blastdb file, so we can set that in the
+            # ncbi blast command directly
+            self.cmd.db = self.target
+            self.run_blast(self.cmd)
+            self.file_in = open(self.blastout, 'r')
+        elif ftype == 'xml':
+            self.file_in = open(self.target, 'r')
         return NCBIXML.parse(self.file_in)
 
     def __exit__(self, exc_type, exc_value, traceback):
@@ -110,6 +122,25 @@ class pyBlast():
         if self.verbose:
             print(cmd)
         cmd()
+
+    def _guess_filetype(self, filename):
+        """ Try to guess the filetype from the content """
+
+        # If the input is the name of the blastdb, the file itself should not
+        # exist, but the derived files should
+        if not os.path.exists(filename):
+            derived = [f'{filename}.{ext}' for ext in ['nhr', 'nin', 'nsq']]
+            if all(os.path.exists(fname) for fname in derived):
+                return 'blastdb'
+
+        # If the file exists, we open it and have a peek at the content
+        with open(filename, 'r') as fin:
+            line = next(fin)
+            if line.startswith('>'):
+                return 'fasta'
+            elif line.startswith('<?xml version="1.0"?>'):
+                return 'xml'
+
 
 
 class pyBlastFlat(pyBlast):
