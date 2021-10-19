@@ -27,7 +27,7 @@ The settings for this pipeline are defined in a
 pep_version: 2.0.0
 sample_table: "samples.csv"
 HiFi-assembly:
-  # This hifias-flag enables to 'low memory' mode, usefull for testing
+  # This hifias-flag enables the 'low memory' mode, usefull for testing
   hifiasm-flags: "-f0 "
   reference: tests/data/reference/ASL.fasta
   genes: tests/data/reference/ASL.fasta
