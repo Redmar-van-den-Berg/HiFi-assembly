@@ -27,11 +27,10 @@ The settings for this pipeline are defined in a
 pep_version: 2.0.0
 sample_table: "samples.csv"
 HiFi-assembly:
+  # This hifias-flag enables to 'low memory' mode, usefull for testing
   hifiasm-flags: "-f0 "
   reference: tests/data/reference/ASL.fasta
-  genes:
-    ASL: "chr7"
-    ASL2: "chr7:1-17758"
+  genes: tests/data/reference/ASL.fasta
 ```
 
 The samples are defined in a simple csv file.
@@ -39,6 +38,13 @@ The samples are defined in a simple csv file.
 sample_name,bamfile
 GM24385,tests/data/GM24385_ASL.bam
 ```
+### Supported settings
+The following output files are the most relevant
+| Option                            | Type              | Explanation                             |
+| --------------------------------- | ----------------- | --------------------------------------- |
+| reference                         | Optional file     | If specified, the contigs will be mapped to the reference.    |
+| genes                             | Optional file     | If specified, the genes will be compared to the contigs using BLAST. |
+| hifiasm-flags                     | Optional string   | Flags to pass to HiFiasm                |
 
 ### Multiple bam files per sample
 If you have multiple bam files per sample, you can utilise the
@@ -48,18 +54,33 @@ for details. Be sure to include every sample in the `sample_table`, otherwise
 the bam file specified in the `subsample_table` will be ignored.
 
 ## How it works
+### Assembly
 The reads from the bam file(s) are assembled using `HiFiasm` with default
-settings, unless you specify additional flags using `hifiasm-flags`. After
-assembly, the contigs are mapped against the reference using `minimap2`. Next,
-the [mutalyzer description
-extractor](https://mutalyzer.nl/description-extractor) is used to directly
-determine the difference between the reference genes and the contigs.
-Finally, this description is trimmed to exlude insertions and deletions that
-occur at the beginning and end of the gene. This way, there are no spurious
-differences when the contigs are either larger or smaller than the reference.
+settings. You can control the behaviour of the assembly using the
+`hifiasm-flags` in the project configuration file.
+This pipeline uses the haplotype-resolved raw unitig graph from HiFiasm, since
+this graph [contains all haplotype
+information](https://hifiasm.readthedocs.io/en/latest/interpreting-output.html).
 
-## Output files
-The following output files are the most relevant
-| File path                         | Explanation                             |
-| --------------------------------- | --------------------------------------- |
-| sample/sample_contigs.bam         | The contigs mapped to the reference     |
+The assembly is placed in the `sample/assembly` folder.
+
+### Align contigs to the reference
+If a `reference` has been specified in the project configuration file, the
+contigs are mapped to the reference using `minimap2`. This allows for visual
+inspection of the contigs in IGV. Additionally, unexpected results such as
+unmapped contigs, or contigs with large scale deletions can be identified from
+the bam file.
+
+The bam file is place in the `sample/bamfile` folder.
+
+### Blast genes of interest against the contigs
+If a `genes` FASTA file has been specified, these will be blasted against the
+contigs to assign them to the corresponding genes.
+
+The full blast results in XML format are placed in
+`sample/blast/sample_blast.xml`. Additionally, the section that matches the
+sequence in the `genes` FASTA file will be placed in a FASTA file with the
+corresponding gene name. For example, if contig `utg000010l` contains the
+`CYP2D6` gene, the section of `utg000010l` that matches `CYP2D6` will be placed
+in `sample/blast/CYP2D6.fasta`. The fasta header will include information about
+the region of the contig that matches, e.g. `utg000010l:9807-6104`.
