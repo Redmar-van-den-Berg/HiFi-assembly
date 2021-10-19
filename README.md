@@ -39,7 +39,8 @@ sample_name,bamfile
 GM24385,tests/data/GM24385_ASL.bam
 ```
 ### Supported settings
-The following output files are the most relevant
+The following settings are available for the pipeline, place them under the
+`HiFi-assembly` section in the project configuration.
 | Option                            | Type              | Explanation                             |
 | --------------------------------- | ----------------- | --------------------------------------- |
 | reference                         | Optional file     | If specified, the contigs will be mapped to the reference.    |
