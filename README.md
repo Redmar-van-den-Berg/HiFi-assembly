@@ -43,8 +43,8 @@ The following settings are available for the pipeline, place them under the
 `HiFi-assembly` section in the project configuration.
 | Option                            | Type              | Explanation                             |
 | --------------------------------- | ----------------- | --------------------------------------- |
-| reference                         | Optional file     | If specified, the contigs will be mapped to the reference.    |
-| genes                             | Optional file     | If specified, the genes will be compared to the contigs using BLAST. |
+| reference                         | Optional file     | If specified, the contigs will be mapped to the reference |
+| genes                             | Optional file     | If specified, the genes will be compared to the contigs using BLAST |
 | hifiasm-flags                     | Optional string   | Flags to pass to HiFiasm                |
 
 ### Multiple bam files per sample
