@@ -8,8 +8,8 @@ rule all:
     input:
         assembly = [f'{sample}/assembly/{sample}.bp.r_utg.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/bamfile/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
-        fasta = [f'{sample}/{sample}_contigs_blast.fasta' for sample in samples] if 'genes' in config else [],
-        json = [f'{sample}/{sample}_contigs_blast.json' for sample in samples] if 'genes' in config else [],
+        fasta = [f'{sample}/blast/{sample}_contigs_blast.fasta' for sample in samples] if 'genes' in config else [],
+        json = [f'{sample}/blast/{sample}_contigs_blast.json' for sample in samples] if 'genes' in config else [],
 
 rule bam_to_fasta:
     input:
@@ -101,10 +101,10 @@ rule make_blast_db:
     params:
         dbname = lambda wildcards, output: output[0][:-4]
     output:
-        nhr = '{sample}/genes/{sample}.blastdb.nhr',
-        nin = '{sample}/genes/{sample}.blastdb.nin',
-        nsq = '{sample}/genes/{sample}.blastdb.nsq',
-        folder = directory('{sample}/genes'),
+        nhr = '{sample}/blast/{sample}.blastdb.nhr',
+        nin = '{sample}/blast/{sample}.blastdb.nin',
+        nsq = '{sample}/blast/{sample}.blastdb.nsq',
+        folder = directory('{sample}/blast'),
     log:
         'log/{sample}_make_blast_db.txt'
     container:
@@ -127,7 +127,7 @@ rule blast_contigs:
     params:
         dbname = lambda wildcards, input: input[0][:-4]
     output:
-        xml = '{sample}/genes/{sample}_blast.xml'
+        xml = '{sample}/blast/{sample}_blast.xml'
     log:
         'log/{sample}_blast_contigs.txt'
     container:
@@ -148,8 +148,8 @@ rule parse_blast_results:
         folder = rules.make_blast_db.output.folder,
         script = srcdir('scripts/parse-blast.py')
     output:
-        json = '{sample}/{sample}_contigs_blast.json',
-        fasta = '{sample}/{sample}_contigs_blast.fasta'
+        json = '{sample}/blast/{sample}_contigs_blast.json',
+        fasta = '{sample}/blast/{sample}_contigs_blast.fasta'
     log:
         'log/{sample}_parse_blast_result.txt'
     container:

@@ -23,12 +23,12 @@
       # Test whether hifiasm-flags are included in the command
       - hifiasm -o GM24385/assembly/GM24385 .* -f0
       # Test whether we plan to run blast
-      - GM24385/GM24385_contigs_blast.json
-      - GM24385/GM24385_contigs_blast.fasta
+      - GM24385/blast/GM24385_contigs_blast.json
+      - GM24385/blast/GM24385_contigs_blast.fasta
       # Test whether we plan to create a blast database
-      - GM24385/genes/GM24385.blastdb.nhr
+      - GM24385/blast/GM24385.blastdb.nhr
       # Test whether we plan to run blast
-      - GM24385/genes/GM24385_blast.xml
+      - GM24385/blast/GM24385_blast.xml
     must_not_contain:
       - rror
   stderr:

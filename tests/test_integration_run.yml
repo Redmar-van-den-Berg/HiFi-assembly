@@ -35,12 +35,12 @@
     # Test whether bai file exists
     - path: GM24385/bamfile/GM24385_contigs.bam.bai
     # Test whether the blast output files exist
-    - path: GM24385/GM24385_contigs_blast.json
-    - path: GM24385/GM24385_contigs_blast.fasta
+    - path: GM24385/blast/GM24385_contigs_blast.json
+    - path: GM24385/blast/GM24385_contigs_blast.fasta
     # Test whether we create a blast database
-    - path: GM24385/genes/GM24385.blastdb.nhr
+    - path: GM24385/blast/GM24385.blastdb.nhr
     # Test whether we ran blast
-    - path: GM24385/genes/GM24385_blast.xml
+    - path: GM24385/blast/GM24385_blast.xml
 
 # Test support for two bam files per sample
 - name: integration-two-bamfiles
@@ -64,7 +64,7 @@
     # Test whether bai file exists
     - path: GM24385/bamfile/GM24385_contigs.bam.bai
     # Test whether the blast results contain hits for ASL and CYP2D6
-    - path: sample2/sample2_contigs_blast.fasta
+    - path: sample2/blast/sample2_contigs_blast.fasta
       contains:
         - ">ASL NC_000007.14"
         - ">CYP2D6 LRG_303g (genomic sequence)"
@@ -74,8 +74,8 @@
         - ">CYP2D6.*:14130-2816"
         - ">ASL.*:1-16454"
     # Test wether the per-gene blast output exists
-    - path: GM24385/genes/ASL.fasta
-    - path: sample2/genes/ASL.fasta
+    - path: GM24385/blast/ASL.fasta
+    - path: sample2/blast/ASL.fasta
       contains_regex:
         # Header for the best ASL hit
         - "ASL.*utg00000.*:1-16454"
@@ -83,7 +83,7 @@
         # Header for second best ASL hit (on the same contig). Should be
         # removed
         - ">ASL.*utg00000.*:2098-1788"
-    - path: sample2/genes/CYP2D6.fasta
+    - path: sample2/blast/CYP2D6.fasta
       must_not_contain_regex:
         # Header for the best CYP2D6 hit
         - ">CYP2D6.*utg00000.*:14130-2816"
