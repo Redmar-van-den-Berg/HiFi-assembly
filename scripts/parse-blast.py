@@ -68,6 +68,22 @@ def get_best_hits(pb):
     return list(best.values())
 
 
+def record_to_fasta(record):
+    """ Return a record in fasta format
+
+    Includes some messing about with the blast data to put information about
+    the hit into the fasta header
+
+    A hit for CYP2D6 on contig utg1 for the first 1000 bases would get the
+    following fasta header:
+    >utg1:1-1000 (CYP2D6)
+    """
+    alignment = record.alignment
+    hsp = alignment.hsp
+    name = f'{alignment.hit_def}:{hsp.sbjct_start}-{hsp.sbjct_end}'
+    seq = hsp.sbjct
+    return f'>{name} ({record.query})\n{seq}'
+
 def main(args):
     cmd = NcbiblastnCommandline(query=args.query, db=args.database)
 
@@ -85,7 +101,7 @@ def main(args):
         if args.fasta:
             with open(args.fasta, 'w') as fout:
                 for record in records:
-                    SeqIO.write(pyBlastFlat.fasta(record), fout, 'fasta')
+                    print(record_to_fasta(record), file=fout)
 
         # If we need to write the genes
         if args.genes:
@@ -94,7 +110,7 @@ def main(args):
                 query_name = record.query.split(' ')[0]
                 fname = f'{args.genes}/{query_name}.fasta'
                 with open(fname, 'a') as fout:
-                    SeqIO.write(pyBlastFlat.fasta(record), fout, 'fasta')
+                    print(record_to_fasta(record), file=fout)
 
 
 if __name__ == '__main__':
