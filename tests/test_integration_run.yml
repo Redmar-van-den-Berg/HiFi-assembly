@@ -29,7 +29,7 @@
     # Test whether the GFA assembly was successfully converted to fasta
     - path: GM24385/assembly/GM24385.bp.r_utg.fasta
       contains:
-        - ">utg"
+        - '>utg'
     # Test whether the contigs were mapped to the reference
     - path: GM24385/bamfile/GM24385_contigs.bam
     # Test whether bai file exists
@@ -66,8 +66,8 @@
     # Test whether the blast results contain hits for ASL and CYP2D6
     - path: sample2/blast/sample2_contigs_blast.fasta
       contains:
-        - "ASL NC_000007.14"
-        - "CYP2D6 LRG_303g (genomic sequence)"
+        - ASL NC_000007.14
+        - CYP2D6 LRG_303g (genomic sequence)
       contains_regex:
         # Test presence of the best blast hit, we don't care about the contig
         # number

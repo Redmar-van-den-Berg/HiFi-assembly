@@ -17,11 +17,6 @@
       - bp.r_utg.fasta
       # Test whether we plan to map the contigs to the reference
       - minimap2 -a tests/data/reference/ASL.fasta GM24385/assembly/GM24385.bp.r_utg.fasta
-    contains_regex:
-      # Test whether the input is a single bamfile
-      - "input: tests/data/GM24385_ASL.bam$"
-      # Test whether hifiasm-flags are included in the command
-      - hifiasm -o GM24385/assembly/GM24385 .* -f0
       # Test whether we plan to run blast
       - GM24385/blast/GM24385_contigs_blast.json
       - GM24385/blast/GM24385_contigs_blast.fasta
@@ -29,6 +24,11 @@
       - GM24385/blast/GM24385.blastdb.nhr
       # Test whether we plan to run blast
       - GM24385/blast/GM24385_blast.xml
+    contains_regex:
+      # Test whether the input is a single bamfile
+      - 'input: tests/data/GM24385_ASL.bam$'
+      # Test whether hifiasm-flags are included in the command
+      - 'hifiasm -o GM24385/assembly/GM24385 .* -f0'
     must_not_contain:
       - rror
   stderr:
@@ -49,7 +49,7 @@
   stdout:
     contains_regex:
       # Test whether the input are two bamfiles
-      - "input: tests/data/GM24385_ASL.bam, tests/data/GM24385_CYP2D6-CYP2D7.bam$"
+      - 'input: tests/data/GM24385_ASL.bam, tests/data/GM24385_CYP2D6-CYP2D7.bam$'
     must_not_contain:
       - rror
   stderr:
