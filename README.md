@@ -51,8 +51,14 @@ The following settings are available for the pipeline, place them under the
 If you have multiple bam files per sample, you can utilise the
 `subsample_table` in the PEP project file, see [this
 example](https://github.com/Redmar-van-den-Berg/HiFi-assembly/blob/main/tests/pep/project_config_two_bamfiles.yml)
-for details. Be sure to include every sample in the `sample_table`, otherwise
-the bam file specified in the `subsample_table` will be ignored.
+for details. In the `subsample_table`, you can put every input bam file on a
+new line, as can be seen
+[here](https://github.com/Redmar-van-den-Berg/HiFi-assembly/blob/main/tests/pep/subsample_two_bamfiles.csv).
+Be sure to include every sample that is present in the `subsample_table` in the
+`sample_table` as well (as shown
+[here](https://github.com/Redmar-van-den-Berg/HiFi-assembly/blob/main/tests/pep/samples_two_bamfiles.csv)),
+otherwise the samples specified in the `subsample_table` will not be included
+in the analysis.
 
 ## How it works
 ### Assembly
