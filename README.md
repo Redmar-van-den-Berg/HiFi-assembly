@@ -4,7 +4,7 @@
 ![Commits since latest release](https://img.shields.io/github/commits-since/redmar-van-den-berg/HiFi-assembly/latest)
 
 # HiFi assembly
-Assemble HiFi reads and extract variants for the specified genes.
+Assemble HiFi reads and extract the specified genes from the assembly.
 
 ## Installation
 Download the repository from github
