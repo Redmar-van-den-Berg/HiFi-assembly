@@ -81,6 +81,7 @@ The full blast results in XML format are placed in
 `sample/blast/sample_blast.xml`. Additionally, the section that matches the
 sequence in the `genes` FASTA file will be placed in a FASTA file with the
 corresponding gene name. For example, if contig `utg000010l` contains the
-`CYP2D6` gene, the section of `utg000010l` that matches `CYP2D6` will be placed
-in `sample/blast/CYP2D6.fasta`. The fasta header will include information about
-the region of the contig that matches, e.g. `utg000010l:9807-6104`.
+`CYP2D6` gene, the sequence content of `utg000010l` that matches `CYP2D6` will
+be placed in `sample/blast/CYP2D6.fasta`. The fasta header will include
+information about the region of the contig that matches, i.e.
+`utg000010l:9807-6104 (CYP2D6)`.
