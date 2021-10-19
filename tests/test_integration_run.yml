@@ -15,7 +15,7 @@
       - rror
   files:
     # Test whether the input has been converted to fasta
-    - path: GM24385/GM24385.fasta.gz
+    - path: GM24385/input/GM24385.fasta.gz
     # Test whether the log file for bam to fasta gets written
     - path: log/GM24385_bam_to_fasta.txt
       contains:

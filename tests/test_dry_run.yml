@@ -12,7 +12,7 @@
   stdout:
     contains:
       # Test whether the input bamfile is converted to fasta
-      - samtools fasta $bamfile 2>> log/GM24385_bam_to_fasta.txt | gzip >> GM24385/GM24385.fasta.gz
+      - samtools fasta $bamfile 2>> log/GM24385_bam_to_fasta.txt | gzip >> GM24385/input/GM24385.fasta.gz
       # Test whether we plan to convert the GFA graph to fasta
       - bp.r_utg.fasta
       # Test whether we plan to map the contigs to the reference

@@ -6,7 +6,6 @@ samples = pep.sample_table['sample_name']
 
 rule all:
     input:
-        fasta_input = [f'{sample}/{sample}.fasta.gz' for sample in samples],
         assembly = [f'{sample}/{sample}.bp.r_utg.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
         fasta = [f'{sample}/{sample}_contigs_blast.fasta' for sample in samples] if 'genes' in config else [],
@@ -16,7 +15,7 @@ rule bam_to_fasta:
     input:
         get_bamfiles
     output:
-        '{sample}/{sample}.fasta.gz'
+        '{sample}/input/{sample}.fasta.gz'
     log:
         'log/{sample}_bam_to_fasta.txt'
     container:
