@@ -152,13 +152,13 @@ rule parse_blast_results:
         json = '{sample}/{sample}_contigs_blast.json',
         fasta = '{sample}/{sample}_contigs_blast.fasta'
     log:
-        'log/{sample}_blast_genes.txt'
+        'log/{sample}_parse_blast_result.txt'
     container:
         containers['pyblast']
     shell: """
 
-        # Make sure there are not fasta files, since script appends to output files
-        rm -f {input.folder}/*.fasta
+        # Make sure there are no fasta files, since script appends to output files
+        rm -f {input.folder}/*.fasta 2> {log}
 
         python3 {input.script} \
             --database {input.blast_results} \
