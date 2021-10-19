@@ -147,7 +147,7 @@ rule parse_blast_results:
         blast_results = rules.blast_contigs.output,
         genes = config.get('genes', ''), # Not actually used in the script
         folder = rules.make_blast_db.output.folder,
-        script = srcdir('scripts/run-blast.py')
+        script = srcdir('scripts/parse-blast.py')
     output:
         json = '{sample}/{sample}_contigs_blast.json',
         fasta = '{sample}/{sample}_contigs_blast.fasta'
