@@ -54,7 +54,7 @@ example](https://github.com/Redmar-van-den-Berg/HiFi-assembly/blob/main/tests/pe
 for details. In the `subsample_table`, you can put every input bam file on a
 new line, as can be seen
 [here](https://github.com/Redmar-van-den-Berg/HiFi-assembly/blob/main/tests/pep/subsample_two_bamfiles.csv).
-Be sure to include every sample that is present in the `subsample_table` in the
+Be sure to include the sample name for every sample in the
 `sample_table` as well (as shown
 [here](https://github.com/Redmar-van-den-Berg/HiFi-assembly/blob/main/tests/pep/samples_two_bamfiles.csv)),
 otherwise the samples specified in the `subsample_table` will not be included
