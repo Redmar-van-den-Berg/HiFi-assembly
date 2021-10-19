@@ -28,6 +28,8 @@ jobs:
           - dry-run-genes-only
           - integration-vanilla
           - integration-two-bamfiles
+          - integration-reference-only
+          - integration-genes-only
     steps:
     - uses: actions/checkout@v2
 

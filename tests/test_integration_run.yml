@@ -91,3 +91,51 @@
         # Header for second best CYP2D6 hit (on the same contig). Should be
         # removed
         - ">CYP2D6.*utg00000.*:21480-17998"
+
+# Configuration file with only reference specified
+- name: integration-reference-only
+  tags:
+    - integration
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_reference_only.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stderr:
+    contains:
+      - rule map_contigs
+    must_not_contain:
+      - rror
+      - rule parse_blast_results
+  files:
+    - path: GM24385/blast/ASL.fasta
+      should_exist: false
+
+# Configuration file with only genes specified
+- name: integration-genes-only
+  tags:
+    - integration
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_genes_only.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stderr:
+    contains:
+      - rule parse_blast_results
+    must_not_contain:
+      - rror
+      - rule map_contigs
+  files:
+    - path: GM24385/bamfile/GM24385_contigs.bam
+      should_exist: false
