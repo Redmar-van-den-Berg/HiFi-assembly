@@ -7,7 +7,7 @@ samples = pep.sample_table['sample_name']
 rule all:
     input:
         assembly = [f'{sample}/assembly/{sample}.bp.r_utg.fasta' for sample in samples],
-        mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
+        mapped_contigs = [f'{sample}/bamfile/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
         fasta = [f'{sample}/{sample}_contigs_blast.fasta' for sample in samples] if 'genes' in config else [],
         json = [f'{sample}/{sample}_contigs_blast.json' for sample in samples] if 'genes' in config else [],
 
@@ -80,8 +80,8 @@ rule map_contigs:
         contigs = rules.assembly_to_fasta.output,
         reference = config.get('reference', '')
     output:
-        bam = '{sample}/{sample}_contigs.bam',
-        bai = '{sample}/{sample}_contigs.bam.bai'
+        bam = '{sample}/bamfile/{sample}_contigs.bam',
+        bai = '{sample}/bamfile/{sample}_contigs.bam.bai'
     log:
         'log/{sample}_contigs.txt'
     container:
