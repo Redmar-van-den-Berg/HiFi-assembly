@@ -15,11 +15,11 @@ import subprocess
 import shutil
 import tempfile
 import unittest
-import copy
 import itertools
 from functools import partial
 from contextlib import contextmanager
 from pprint import pprint
+import pickle
 
 import Bio
 from Bio.Blast import NCBIXML
@@ -169,9 +169,12 @@ class pyBlastFlat(pyBlast):
         for record in pb:
             for alignment in record.alignments:
                 for hsp in alignment.hsps:
-                    flat_record = copy.deepcopy(record)
-                    flat_record.alignment = copy.deepcopy(alignment)
-                    flat_record.alignment.hsp = copy.deepcopy(hsp)
+                    # Use pickle instead of copy.deepcopy, since it is ~10x
+                    # faster. We have to make a real (deep) copy, since the
+                    # caller might modify the objects
+                    flat_record = pickle.loads(pickle.dumps(record, -1))
+                    flat_record.alignment = pickle.loads(pickle.dumps(alignment, -1))
+                    flat_record.alignment.hsp = pickle.loads(pickle.dumps(hsp, -1))
 
                     del flat_record.alignments
                     del flat_record.alignment.hsps
