@@ -21,13 +21,13 @@
       contains:
         - '[M::bam2fq_mainloop] processed 627 reads'
     # Test whether the HiFi reads were assembled
-    - path: GM24385/GM24385.bp.r_utg.gfa
+    - path: GM24385/assembly/GM24385.bp.r_utg.gfa
     # Test whether the log file for HiFiasm gets written
     - path: log/GM24385_hifiasm.txt
       contains:
         - 'M::ha_print_ovlp_stat] # overlaps:'
     # Test whether the GFA assembly was successfully converted to fasta
-    - path: GM24385/GM24385.bp.r_utg.fasta
+    - path: GM24385/assembly/GM24385.bp.r_utg.fasta
       contains:
         - ">utg"
     # Test whether the contigs were mapped to the reference

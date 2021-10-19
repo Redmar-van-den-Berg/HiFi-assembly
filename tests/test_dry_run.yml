@@ -16,12 +16,12 @@
       # Test whether we plan to convert the GFA graph to fasta
       - bp.r_utg.fasta
       # Test whether we plan to map the contigs to the reference
-      - minimap2 -a tests/data/reference/ASL.fasta GM24385/GM24385.bp.r_utg.fasta
+      - minimap2 -a tests/data/reference/ASL.fasta GM24385/assembly/GM24385.bp.r_utg.fasta
     contains_regex:
       # Test whether the input is a single bamfile
       - "input: tests/data/GM24385_ASL.bam$"
       # Test whether hifiasm-flags are included in the command
-      - hifiasm -o GM24385/GM24385 .* -f0
+      - hifiasm -o GM24385/assembly/GM24385 .* -f0
       # Test whether we plan to run blast
       - GM24385/GM24385_contigs_blast.json
       - GM24385/GM24385_contigs_blast.fasta

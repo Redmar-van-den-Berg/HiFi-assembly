@@ -6,7 +6,7 @@ samples = pep.sample_table['sample_name']
 
 rule all:
     input:
-        assembly = [f'{sample}/{sample}.bp.r_utg.fasta' for sample in samples],
+        assembly = [f'{sample}/assembly/{sample}.bp.r_utg.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
         fasta = [f'{sample}/{sample}_contigs_blast.fasta' for sample in samples] if 'genes' in config else [],
         json = [f'{sample}/{sample}_contigs_blast.json' for sample in samples] if 'genes' in config else [],
@@ -39,12 +39,12 @@ rule assemble:
     output:
         # Haplotype-resolved raw unitig graph.
         # This graph keeps all haplotype information.
-        r_utg = '{sample}/{sample}.bp.r_utg.gfa',
+        r_utg = '{sample}/assembly/{sample}.bp.r_utg.gfa',
 
         # Haplotype-resolved processed unitig graph without small bubbles.
         # Small bubbles might be caused by somatic mutations or noise in data,
         # which are not the real haplotype information.
-        p_utg = '{sample}/{sample}.bp.p_utg.gfa'
+        p_utg = '{sample}/assembly/{sample}.bp.p_utg.gfa'
     params:
         flags = config.get('hifiasm-flags', '')
     threads:
@@ -54,7 +54,7 @@ rule assemble:
     container:
         containers['hifiasm']
     shell: """
-        hifiasm -o {wildcards.sample}/{wildcards.sample} \
+        hifiasm -o {wildcards.sample}/assembly/{wildcards.sample} \
         -t {threads} {params} \
         {input.fasta} 2> {log}
     """
@@ -65,7 +65,7 @@ rule assembly_to_fasta:
         gfa = rules.assemble.output.r_utg,
         script = srcdir('scripts/gfa-to-fasta.py')
     output:
-        '{sample}/{sample}.bp.r_utg.fasta'
+        '{sample}/assembly/{sample}.bp.r_utg.fasta'
     log:
         'log/{sample}_assembly_to_fasta.txt'
     container:
