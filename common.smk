@@ -16,3 +16,11 @@ def get_bamfiles(wildcards):
     # If multiple bam files were specified, bamfiles will be a list
     else:
         return bamfiles
+
+def get_assembly():
+    """ Pick the correct HiFi output file based on the configuration """
+    return rules.assemble.output[config['hifiasm-output']]
+
+# Set default values
+if 'hifiasm-output' not in config:
+    config['hifiasm-output'] = 'r_utg'

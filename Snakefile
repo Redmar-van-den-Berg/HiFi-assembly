@@ -1,12 +1,11 @@
-
-include: 'common.smk'
 pepfile: config['pepfile']
 config = pep.config.get('HiFi-assembly', dict())
 samples = pep.sample_table['sample_name']
+include: 'common.smk'
 
 rule all:
     input:
-        assembly = [f'{sample}/assembly/{sample}.bp.r_utg.fasta' for sample in samples],
+        assembly = [f'{sample}/assembly/{sample}.bp.{config["hifiasm-output"]}.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/bamfile/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
         json = [f'{sample}/blast/{sample}_contigs_blast.json' for sample in samples] if 'genes' in config else [],
 
@@ -61,10 +60,10 @@ rule assemble:
 rule assembly_to_fasta:
     """ Convert the gfa assembly graph to fasta format """
     input:
-        gfa = rules.assemble.output.r_utg,
+        gfa = get_assembly(),
         script = srcdir('scripts/gfa-to-fasta.py')
     output:
-        '{sample}/assembly/{sample}.bp.r_utg.fasta'
+        f'{{sample}}/assembly/{{sample}}.bp.{config["hifiasm-output"]}.fasta'
     log:
         'log/{sample}_assembly_to_fasta.txt'
     container:
