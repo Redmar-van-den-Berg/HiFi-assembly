@@ -36,7 +36,6 @@
     - path: GM24385/bamfile/GM24385_contigs.bam.bai
     # Test whether the blast output files exist
     - path: GM24385/blast/GM24385_contigs_blast.json
-    - path: GM24385/blast/GM24385_contigs_blast.fasta
     # Test whether we create a blast database
     - path: GM24385/blast/GM24385.blastdb.nhr
     # Test whether we ran blast
@@ -63,16 +62,6 @@
     - path: GM24385/bamfile/GM24385_contigs.bam
     # Test whether bai file exists
     - path: GM24385/bamfile/GM24385_contigs.bam.bai
-    # Test whether the blast results contain hits for ASL and CYP2D6
-    - path: sample2/blast/sample2_contigs_blast.fasta
-      contains:
-        - ASL NC_000007.14
-        - CYP2D6 LRG_303g (genomic sequence)
-      contains_regex:
-        # Test presence of the best blast hit, we don't care about the contig
-        # number
-        - '>utg0\d+l:14130-2816 \(CYP2D6'
-        - '>utg0\d+l:1-16454 \(ASL'
     # Test wether the per-gene blast output exists
     - path: GM24385/blast/GM24385_ASL.fasta
     - path: sample2/blast/sample2_ASL.fasta

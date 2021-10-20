@@ -8,7 +8,6 @@ rule all:
     input:
         assembly = [f'{sample}/assembly/{sample}.bp.r_utg.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/bamfile/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
-        fasta = [f'{sample}/blast/{sample}_contigs_blast.fasta' for sample in samples] if 'genes' in config else [],
         json = [f'{sample}/blast/{sample}_contigs_blast.json' for sample in samples] if 'genes' in config else [],
 
 rule bam_to_fasta:
@@ -149,7 +148,6 @@ rule parse_blast_results:
         script = srcdir('scripts/parse-blast.py')
     output:
         json = '{sample}/blast/{sample}_contigs_blast.json',
-        fasta = '{sample}/blast/{sample}_contigs_blast.fasta'
     log:
         'log/{sample}_parse_blast_result.txt'
     container:
@@ -165,5 +163,5 @@ rule parse_blast_results:
             --json {output.json} \
             --genes {input.folder} \
             --gene-prefix {wildcards.sample} \
-            --fasta {output.fasta} 2>> {log}
+            2>> {log}
     """
