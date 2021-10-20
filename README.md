@@ -46,6 +46,7 @@ The following settings are available for the pipeline, place them under the
 | reference                         | Optional file     | If specified, the contigs will be mapped to the reference |
 | genes                             | Optional file     | If specified, the genes will be compared to the contigs using BLAST |
 | hifiasm-flags                     | Optional string   | Flags to pass to HiFiasm                |
+| hifiasm-output                    | Optional string   | HiFiasm output file to use. Choices: `p_utg`, `p_utg`, `p_ctg`, default is `r_utg`. Note that `p_ctg` can contain phase switching |
 
 ### Multiple bam files per sample
 If you have multiple bam files per sample, you can utilise the
@@ -64,10 +65,12 @@ in the analysis.
 ### Assembly
 The reads from the bam file(s) are assembled using `HiFiasm` with default
 settings. You can control the behaviour of the assembly using the
-`hifiasm-flags` in the project configuration file.
-This pipeline uses the haplotype-resolved raw unitig graph from HiFiasm, since
-this graph [contains all haplotype
-information](https://hifiasm.readthedocs.io/en/latest/interpreting-output.html).
+`hifiasm-flags` in the project configuration file.  This pipeline uses the
+haplotype-resolved raw unitig graph from HiFiasm by default, since this graph
+contains all haplotype information. This can be changed with the
+`hifiasm-output` option, see above. Please carefully read the [HiFiasm
+documentation](https://hifiasm.readthedocs.io/en/latest/interpreting-output.html)
+on the content of each output file before changing this setting.
 
 The assembly is placed in the `sample/assembly` folder.
 

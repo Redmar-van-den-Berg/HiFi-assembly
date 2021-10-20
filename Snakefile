@@ -42,7 +42,13 @@ rule assemble:
         # Haplotype-resolved processed unitig graph without small bubbles.
         # Small bubbles might be caused by somatic mutations or noise in data,
         # which are not the real haplotype information.
-        p_utg = '{sample}/assembly/{sample}.bp.p_utg.gfa'
+        p_utg = '{sample}/assembly/{sample}.bp.p_utg.gfa',
+
+        # Assembly graph of primary contigs. This graph includes a complete
+        # assembly with long stretches of phased blocks.
+        # NOTE: The assembly contains occasional phase switching, use with
+        # extreme caution
+        p_ctg = '{sample}/assembly/{sample}.bp.p_ctg.gfa',
     params:
         flags = config.get('hifiasm-flags', '')
     threads:

@@ -119,3 +119,47 @@
   stderr:
     must_not_contain:
       - rror
+
+# Configuration file where we use the p_utg output from HiFiasm
+- name: dry-run-p_utg
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_p_utg.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    contains_regex:
+      # Test if the p_utg GFA file is used to create the fasta file
+      - 'input: GM24385/assembly/GM24385.bp.p_utg.gfa, .*gfa-to-fasta.py'
+    must_not_contain:
+      - rror
+  stderr:
+    must_not_contain:
+      - rror
+
+# Configuration file where we use the p_ctg output from HiFiasm
+- name: dry-run-p_ctg
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_p_ctg.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    contains_regex:
+      # Test if the p_utg GFA file is used to create the fasta file
+      - 'input: GM24385/assembly/GM24385.bp.p_ctg.gfa, .*gfa-to-fasta.py'
+    must_not_contain:
+      - rror
+  stderr:
+    must_not_contain:
+      - rror

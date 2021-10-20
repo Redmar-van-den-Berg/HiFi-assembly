@@ -26,6 +26,8 @@ jobs:
           - dry-run-minimal
           - dry-run-reference-only
           - dry-run-genes-only
+          - dry-run-p_utg
+          - dry-run-p_ctg
           - integration-vanilla
           - integration-two-bamfiles
           - integration-reference-only
