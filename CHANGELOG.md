@@ -10,6 +10,7 @@ that users understand how the changes affect the new version.
 
 v0.3
 ---------------------------
++ Add separate bam file output for mapped/unmapped contigs
 + Add support for selecting HiFiasm output to use via the `hifiasm-output`
 setting
 + Add sample name as prefix to per-gene contigs fasta files

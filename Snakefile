@@ -84,18 +84,28 @@ rule map_contigs:
         contigs = rules.assembly_to_fasta.output,
         reference = config.get('reference', '')
     output:
-        bam = '{sample}/bamfile/{sample}_contigs.bam',
-        bai = '{sample}/bamfile/{sample}_contigs.bam.bai'
+        mapped_bam = '{sample}/bamfile/{sample}_contigs.bam',
+        mapped_bai = '{sample}/bamfile/{sample}_contigs.bam.bai',
+        unmapped_bam = '{sample}/bamfile/{sample}_contigs_unmapped.bam',
+        unmapped_bai = '{sample}/bamfile/{sample}_contigs_unmapped.bam.bai',
     log:
-        'log/{sample}_contigs.txt'
+        minimap = 'log/{sample}_contigs_minimap.txt',
+        samtools = 'log/{sample}_contigs_samtools.txt',
     container:
         containers['minimap2']
     threads:
         12
     shell: """
-        minimap2 -a {input.reference} {input.contigs} -t {threads} 2> {log} \
-                | samtools sort -o - >{output.bam}
-        samtools index {output.bam}
+        minimap2 -a {input.reference} {input.contigs} -t {threads} 2> {log.minimap} \
+                | samtools sort \
+                | samtools view \
+                    -h \
+                    -b \
+                    -o {output.mapped_bam} \
+                    -U {output.unmapped_bam} \
+                    -F 4 2>{log.samtools}
+                samtools index {output.mapped_bam}
+                samtools index {output.unmapped_bam}
     """
 
 rule make_blast_db:

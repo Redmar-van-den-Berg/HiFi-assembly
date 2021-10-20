@@ -32,8 +32,11 @@
         - '>utg'
     # Test whether the contigs were mapped to the reference
     - path: GM24385/bamfile/GM24385_contigs.bam
+    # Test wether the unapped reads were written to a separate filffe
+    - path: GM24385/bamfile/GM24385_contigs_unmapped.bam
     # Test whether bai file exists
     - path: GM24385/bamfile/GM24385_contigs.bam.bai
+    - path: GM24385/bamfile/GM24385_contigs_unmapped.bam.bai
     # Test whether the blast output files exist
     - path: GM24385/blast/GM24385_contigs_blast.json
     # Test whether we create a blast database
