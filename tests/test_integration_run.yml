@@ -74,8 +74,8 @@
         - '>utg0\d+l:14130-2816 \(CYP2D6'
         - '>utg0\d+l:1-16454 \(ASL'
     # Test wether the per-gene blast output exists
-    - path: GM24385/blast/ASL.fasta
-    - path: sample2/blast/ASL.fasta
+    - path: GM24385/blast/GM24385_ASL.fasta
+    - path: sample2/blast/sample2_ASL.fasta
       contains_regex:
         # Header for the best ASL hit
         - '>utg0\d+l:1-16454'
@@ -83,7 +83,7 @@
         # Header for second best ASL hit (on the same contig). Should be
         # removed
         - '>utg00\d+l:2098-1788'
-    - path: sample2/blast/CYP2D6.fasta
+    - path: sample2/blast/sample2_CYP2D6.fasta
       must_not_contain_regex:
         # Header for the best CYP2D6 hit
         - '>utg0\d+l:14130-2816'
@@ -113,7 +113,7 @@
       - rror
       - rule parse_blast_results
   files:
-    - path: GM24385/blast/ASL.fasta
+    - path: GM24385/blast/GM24385_ASL.fasta
       should_exist: false
 
 # Configuration file with only genes specified

@@ -10,6 +10,7 @@ that users understand how the changes affect the new version.
 
 v0.2
 ---------------------------
++ Add sample name as prefix to per-gene contigs fasta files
 + Reorganise pipeline outputs
 + Output only the best hit to the target genes for each contig
 + Make both 'reference' and 'genes' inputs optional

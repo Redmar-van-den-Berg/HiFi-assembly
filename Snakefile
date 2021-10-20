@@ -164,5 +164,6 @@ rule parse_blast_results:
             --query {input.genes} \
             --json {output.json} \
             --genes {input.folder} \
+            --gene-prefix {wildcards.sample} \
             --fasta {output.fasta} 2>> {log}
     """

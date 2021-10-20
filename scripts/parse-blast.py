@@ -108,6 +108,9 @@ def main(args):
             for record in records:
                 # Determine the name of the query, up to the first space
                 query_name = record.query.split(' ')[0]
+                # If specified, add the prefix to the file name
+                if args.gene_prefix:
+                    query_name = f'{args.gene_prefix}_{query_name}'
                 fname = f'{args.genes}/{query_name}.fasta'
                 with open(fname, 'a') as fout:
                     print(record_to_fasta(record), file=fout)
@@ -128,6 +131,8 @@ if __name__ == '__main__':
             'Output the best hit for each sequence in database to this folder.'
             'Use the names of the sequences in query as file name.')
     )
+    parser.add_argument('--gene-prefix', required=False,
+        help='Prefix for the per-gene output file names')
 
     args = parser.parse_args()
     main(args)
