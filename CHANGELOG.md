@@ -8,9 +8,14 @@ This document is user facing. Please word the changes in such a way
 that users understand how the changes affect the new version.
 -->
 
+v0.3
+---------------------------
++ Add support for selecting HiFiasm output to use via the `hifiasm-output`
+setting
++ Add sample name as prefix to per-gene contigs fasta files
+
 v0.2
 ---------------------------
-+ Add sample name as prefix to per-gene contigs fasta files
 + Reorganise pipeline outputs
 + Output only the best hit to the target genes for each contig
 + Make both 'reference' and 'genes' inputs optional
