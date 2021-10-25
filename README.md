@@ -81,7 +81,7 @@ inspection of the contigs in IGV. Additionally, unexpected results such as
 unmapped contigs, or contigs with large scale deletions can be identified from
 the bam file.
 
-The bam file is place in the `sample/bamfile` folder.
+The mapped and unmapped bam files are place in the `sample/bamfile` folder.
 
 ### Blast genes of interest against the contigs
 If a `genes` FASTA file has been specified, these will be blasted against the
@@ -92,6 +92,6 @@ The full blast results in XML format are placed in
 sequence in the `genes` FASTA file will be placed in a FASTA file with the
 corresponding gene name. For example, if contig `utg000010l` contains the
 `CYP2D6` gene, the sequence content of `utg000010l` that matches `CYP2D6` will
-be placed in `sample/blast/CYP2D6.fasta`. The fasta header will include
+be placed in `sample/blast/sample_CYP2D6.fasta`. The fasta header will include
 information about the region of the contig that matches, i.e.
 `utg000010l:9807-6104 (CYP2D6)`.
