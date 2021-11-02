@@ -8,7 +8,7 @@ This document is user facing. Please word the changes in such a way
 that users understand how the changes affect the new version.
 -->
 
-v0.3
+v0.3-dev
 ---------------------------
 + Add separate bam file output for mapped/unmapped contigs
 + Add support for selecting HiFiasm output to use via the `hifiasm-output`

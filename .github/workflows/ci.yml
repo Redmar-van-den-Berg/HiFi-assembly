@@ -13,7 +13,7 @@ defaults:
     shell: bash -l {0}
 
 jobs:
-  tests:
+  pytest-workflow:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -74,3 +74,16 @@ jobs:
           echo $file; cat $file
         done
         '
+
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: conda-incubator/setup-miniconda@v2.0.1
+      # https://github.com/conda-incubator/setup-miniconda.
+      with:
+        activate-environment: HiFi-assembly
+        environment-file: environment.yml
+        auto-activate-base: false
+    - name: Run pytest for padding
+      run: pytest scripts/test_padding.py
