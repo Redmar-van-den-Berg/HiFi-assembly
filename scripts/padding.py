@@ -9,5 +9,10 @@ def add_padding(seq1, start1, end1, seq2, start2, end2):
         - closed
     """
 
-    return seq2
+    # If both sequences are the same length
+    if len(seq1) == len(seq2):
+        return seq1
 
+    # If seq1 is longer
+    if len(seq1) > len(seq2):
+        return seq1[start1-1:end1]
