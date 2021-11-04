@@ -33,7 +33,7 @@ HiFi-assembly:
   genes: tests/data/reference/ASL.fasta
 ```
 
-The samples are defined in a simple csv file.
+The samples are defined in a simple CSV file.
 ```csv
 sample_name,bamfile
 GM24385,tests/data/GM24385_ASL.bam
