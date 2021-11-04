@@ -22,6 +22,10 @@ cases = [
         # Test case where seq1 is longer, but only the center of the sequence
         # matches
         ('GGGAAAGGG', 4, 6, 'AAAAA', 2, 4, 'GAAAG'),
+        # Test case where seq1 is shorter, and must be padded at the beginning
+        ('AAA', 1, 3, 'GGAAA', 3, 5, '--AAA'),
+        # Test case where seq1 is shorter, and must be padded at the end
+        #('AAA', 1, 3, 'AAAGG', 1, 3, 'AAA--'),
         ]
 
 @pytest.mark.parametrize('seq1,start1,end1,seq2,start2,end2,expected', cases)

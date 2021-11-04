@@ -13,7 +13,7 @@ def add_padding(seq1, start1, end1, seq2, start2, end2):
     if len(seq1) == len(seq2):
         return seq1
 
-    # If seq1 is longer
+    # If seq1 is longer, we need to truncate it
     if len(seq1) > len(seq2):
         # If the hit is not the full length of seq2
         if end1-start1+1 < len(seq2):
@@ -26,3 +26,9 @@ def add_padding(seq1, start1, end1, seq2, start2, end2):
             return seq1[seq_start-1:seq_end]
         else:
             return seq1[start1-1:end1]
+    # If seq1 is shorter, we have to padd it
+    if len(seq1) < len(seq2):
+        # If the full length of seq1 matches
+        if len(seq1) == end1 - start1 + 1:
+            missing_before = start2 - 1
+            return '-'*missing_before + seq1
