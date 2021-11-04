@@ -126,5 +126,5 @@ jobs:
         activate-environment: HiFi-assembly
         environment-file: environment.yml
         auto-activate-base: false
-    - name: Run pytest for padding
-      run: pytest scripts/test_padding.py
+    - name: Run pytest for utils
+      run: pytest scripts/test_utils.py
