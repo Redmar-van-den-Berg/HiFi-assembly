@@ -39,6 +39,26 @@ jobs:
       with:
         singularity-version: 3.6.4
 
+    - name: Cache conda
+      uses: actions/cache@v2
+      env:
+        # Increase this value to manually invalidate the cache
+        CACHE_NUMBER: 0
+      with:
+        path: ~/conda_pkgs_dir
+        key:
+          ${{ runner.os}}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('environment.yml') }}
+
+    - name: Cache conda-environment HiFi-assembly
+      uses: actions/cache@v2
+      env:
+        # Increase this value to manually invalidate the cache
+        CACHE_NUMBER: 0
+      with:
+        path: /usr/share/miniconda/envs/HiFi-assembly
+        key:
+          ${{ runner.os}}-HiFi-assembly-${{ env.CACHE_NUMBER }}-${{ hashFiles('environment.yml') }}
+
     - uses: conda-incubator/setup-miniconda@v2.0.1
       # https://github.com/conda-incubator/setup-miniconda.
       with:
@@ -79,6 +99,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
+    - name: Cache conda
+      uses: actions/cache@v2
+      env:
+        # Increase this value to manually invalidate the cache
+        CACHE_NUMBER: 0
+      with:
+        path: ~/conda_pkgs_dir
+        key:
+          ${{ runner.os}}-conda-${{ env.CACHE_NUMBER }}-${{ hashFiles('environment.yml') }}
+
+    - name: Cache conda-environment HiFi-assembly
+      uses: actions/cache@v2
+      env:
+        # Increase this value to manually invalidate the cache
+        CACHE_NUMBER: 0
+      with:
+        path: /usr/share/miniconda/envs/HiFi-assembly
+        key:
+          ${{ runner.os}}-HiFi-assembly-${{ env.CACHE_NUMBER }}-${{ hashFiles('environment.yml') }}
+
     - uses: conda-incubator/setup-miniconda@v2.0.1
       # https://github.com/conda-incubator/setup-miniconda.
       with:
