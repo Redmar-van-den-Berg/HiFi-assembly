@@ -95,3 +95,6 @@ corresponding gene name. For example, if contig `utg000010l` contains the
 be placed in `sample/blast/sample_CYP2D6.fasta`. The fasta header will include
 information about the region of the contig that matches, i.e.
 `utg000010l:9807-6104 (CYP2D6)`.
+**Note: if there are regions in the assembly that overlap a gene, but are not
+included in the BLAST hit (i.e. that are too different from the gene), these
+will still be included in the fasta file for that gene.**

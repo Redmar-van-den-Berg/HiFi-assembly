@@ -6,8 +6,9 @@ import sys
 
 from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio import SeqIO
-
 from pyBlast import pyBlastFlat
+
+from utils import extract_hit_region
 
 def jsonify(record):
     """ Fetch some useful values from the alignment record """
@@ -68,7 +69,16 @@ def get_best_hits(pb):
     return list(best.values())
 
 
-def record_to_fasta(record):
+def get_contig(contigs, name):
+    """ Get the contig with name from contigs """
+    for record in SeqIO.parse(contigs, 'fasta'):
+        if record.id == name:
+            return record.seq
+    else:
+        raise RuntimeError(f'Contig "{name}" not found in "{contigs}"')
+
+
+def record_to_fasta(record, contigs):
     """ Return a record in fasta format
 
     Includes some messing about with the blast data to put information about
@@ -77,11 +87,29 @@ def record_to_fasta(record):
     A hit for CYP2D6 on contig utg1 for the first 1000 bases would get the
     following fasta header:
     >utg1:1-1000 (CYP2D6)
+
+    NOTE that this includes regions from the contig that overlaps the gene of
+    interest, even when the sequences do not match.
     """
     alignment = record.alignment
     hsp = alignment.hsp
+
+    # Get the full sequence of the contig from the contigs fasta file
+    contig = get_contig(contigs, alignment.hit_def)
+
+    # Determine the name based on the blast hit
     name = f'{alignment.hit_def}:{hsp.sbjct_start}-{hsp.sbjct_end}'
-    seq = hsp.sbjct
+    # Extract the region of the hit, PLUS non-matching regions in the subject
+    # that overlap the query.
+    seq = extract_hit_region(
+            contig,
+            hsp.sbjct_start,
+            hsp.sbjct_end,
+            record.query_length,
+            hsp.query_start,
+            hsp.query_end
+    )
+
     return f'>{name} ({record.query})\n{seq}'
 
 def main(args):
@@ -101,7 +129,7 @@ def main(args):
         if args.fasta:
             with open(args.fasta, 'w') as fout:
                 for record in records:
-                    print(record_to_fasta(record), file=fout)
+                    print(record_to_fasta(record, args.contigs), file=fout)
 
         # If we need to write the genes
         if args.genes:
@@ -113,7 +141,7 @@ def main(args):
                     query_name = f'{args.gene_prefix}_{query_name}'
                 fname = f'{args.genes}/{query_name}.fasta'
                 with open(fname, 'a') as fout:
-                    print(record_to_fasta(record), file=fout)
+                    print(record_to_fasta(record, args.contigs), file=fout)
 
 
 if __name__ == '__main__':
@@ -126,6 +154,8 @@ if __name__ == '__main__':
         help='Output blast results in JSON format')
     parser.add_argument('--fasta', required=False,
         help='Output blast results in FASTA format')
+    parser.add_argument('--contigs',
+        help='Assembled contigs in FASTA format')
     parser.add_argument('--genes', required=False,
         help=(
             'Output the best hit for each sequence in database to this folder.'

@@ -10,6 +10,8 @@ that users understand how the changes affect the new version.
 
 v0.3-dev
 ---------------------------
++ Include regions from the assembly that overlap, but do not match, the gene of
+interest
 + Add separate bam file output for mapped/unmapped contigs
 + Add support for selecting HiFiasm output to use via the `hifiasm-output`
 setting

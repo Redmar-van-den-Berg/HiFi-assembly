@@ -158,6 +158,7 @@ rule parse_blast_results:
     """ Parse the blast results of the genes against the assembled contigs """
     input:
         blast_results = rules.blast_contigs.output,
+        contigs = rules.assembly_to_fasta.output,
         genes = config.get('genes', ''), # Not actually used in the script
         folder = rules.make_blast_db.output.folder,
         script = srcdir('scripts/parse-blast.py')
@@ -178,5 +179,6 @@ rule parse_blast_results:
             --json {output.json} \
             --genes {input.folder} \
             --gene-prefix {wildcards.sample} \
+            --contigs {input.contigs} \
             2>> {log}
     """
