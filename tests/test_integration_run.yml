@@ -131,3 +131,46 @@
   files:
     - path: GM24385/bamfile/GM24385_contigs.bam
       should_exist: false
+
+# Configuration file with only hifiasm-write-ec specified
+- name: integration-write-ec
+  tags:
+    - integration
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_write_ec.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stderr:
+    contains_regex:
+      # Test if --write-ec was passed to hifiasm
+      - 'hifiasm .* --write-ec'
+    must_not_contain:
+      - rror
+  files:
+    - path: GM24385/assembly/GM24385.ec.fa
+
+# Configuration file where we specified `hifiasm-write-ec` AND `reference`
+- name: integration-write-ec-reference
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_write_ec_reference.yml
+      --snakefile Snakefile
+  exit_code: 0
+  files:
+    # Make sure the error correcte fasta file was mapped to the reference
+    - path: GM24385/bamfile/GM24385.ec.bam
+    # And also that the unmapped reads were written to a different file
+    - path:  GM24385/bamfile/GM24385.ec.unmapped.bam

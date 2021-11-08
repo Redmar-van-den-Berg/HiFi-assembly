@@ -28,10 +28,14 @@ jobs:
           - dry-run-genes-only
           - dry-run-p_utg
           - dry-run-p_ctg
+          - dry-run-write-ec
+          - dry-run-write-ec-reference
           - integration-vanilla
           - integration-two-bamfiles
           - integration-reference-only
           - integration-genes-only
+          - integration-write-ec
+          - integration-write-ec-reference
     steps:
     - uses: actions/checkout@v2
 

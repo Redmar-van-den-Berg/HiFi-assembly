@@ -8,6 +8,7 @@ rule all:
         assembly = [f'{sample}/assembly/{sample}.bp.{config["hifiasm-output"]}.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/bamfile/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
         json = [f'{sample}/blast/{sample}_contigs_blast.json' for sample in samples] if 'genes' in config else [],
+        ec_bam = [f'{sample}/bamfile/{sample}.ec.bam' for sample in samples] if 'hifiasm-write-ec' in config and 'reference' in config else [],
 
 rule bam_to_fasta:
     input:
@@ -95,6 +96,36 @@ rule map_contigs:
     log:
         minimap = 'log/{sample}_contigs_minimap.txt',
         samtools = 'log/{sample}_contigs_samtools.txt',
+    container:
+        containers['minimap2']
+    threads:
+        12
+    shell: """
+        minimap2 -a {input.reference} {input.contigs} -t {threads} 2> {log.minimap} \
+                | samtools sort \
+                | samtools view \
+                    -h \
+                    -b \
+                    -o {output.mapped_bam} \
+                    -U {output.unmapped_bam} \
+                    -F 4 2>{log.samtools}
+                samtools index {output.mapped_bam}
+                samtools index {output.unmapped_bam}
+    """
+
+rule map_ec_reads:
+    """ Map the assembled contigs against the reference """
+    input:
+        contigs = rules.assemble.output.ec_fasta,
+        reference = config.get('reference', '')
+    output:
+        mapped_bam = '{sample}/bamfile/{sample}.ec.bam',
+        mapped_bai = '{sample}/bamfile/{sample}.ec.bam.bai',
+        unmapped_bam = '{sample}/bamfile/{sample}.ec.unmapped.bam',
+        unmapped_bai = '{sample}/bamfile/{sample}.ec.unmapped.bam.bai',
+    log:
+        minimap = 'log/{sample}_map_ec_reads.txt',
+        samtools = 'log/{sample}_map_ec_reads_samtools.txt',
     container:
         containers['minimap2']
     threads:

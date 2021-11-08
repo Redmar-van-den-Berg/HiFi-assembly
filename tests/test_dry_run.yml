@@ -189,6 +189,34 @@
       - 'output: .* GM24385/assembly/GM24385.ec.fa'
     must_not_contain:
       - rror
+      - GM24385/bamfile/GM24385.ec.bam
+  stderr:
+    must_not_contain:
+      - rror
+
+# Configuration file where we specified `hifiasm-write-ec` AND `reference`
+- name: dry-run-write-ec-reference
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_write_ec_reference.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    contains_regex:
+      # Test if --write-ec was passed to hifiasm
+      - 'hifiasm .* --write-ec'
+      # Make sure the error correcte fasta file was mapped to the reference
+      - 'output: .* GM24385/bamfile/GM24385.ec.bam'
+      # And also that the unmapped reads were written to a different file
+      - 'output: .* GM24385/bamfile/GM24385.ec.unmapped.bam?'
+    must_not_contain:
+      - rror
+      - GM24385/bamfile/GM24385_ec_reads.bam
   stderr:
     must_not_contain:
       - rror
