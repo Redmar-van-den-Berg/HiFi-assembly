@@ -187,8 +187,11 @@
       - 'hifiasm .* --write-ec'
       # Make sure the error correcte fasta file is part of the rule output
       - 'output: .* GM24385/assembly/GM24385.ec.fa'
-    must_not_contain:
+    must_not_contain_regex:
       - rror
+      # Fix a bug where params are passed to hifiasm multiple times
+      - 'hifiasm .* --write-ec.* --write-ec'
+      # Do not generate a bam file when no reference was specified
       - GM24385/bamfile/GM24385.ec.bam
   stderr:
     must_not_contain:

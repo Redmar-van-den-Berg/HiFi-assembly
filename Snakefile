@@ -64,7 +64,7 @@ rule assemble:
         containers['hifiasm']
     shell: """
         hifiasm -o {wildcards.sample}/assembly/{wildcards.sample} \
-        -t {threads} {params} {params.write_ec} \
+        -t {threads} {params.flags} {params.write_ec} \
         {input.fasta} 2> {log}
     """
 
