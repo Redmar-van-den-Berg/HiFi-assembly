@@ -30,6 +30,11 @@
       - 'hifiasm -o GM24385/assembly/GM24385 .* -f0'
     must_not_contain:
       - rror
+    must_not_contain_regex:
+      # Make sure --write-ec is not specified by default
+      - 'hifiasm .* --write-ec'
+      # Make sure the error correcte fasta file is not expected by default
+      - 'output: .* GM24385/assembly/GM24385.ec.fa'
   stderr:
     must_not_contain:
       - rror
@@ -158,6 +163,30 @@
     contains_regex:
       # Test if the p_utg GFA file is used to create the fasta file
       - 'input: GM24385/assembly/GM24385.bp.p_ctg.gfa, .*gfa-to-fasta.py'
+    must_not_contain:
+      - rror
+  stderr:
+    must_not_contain:
+      - rror
+
+# Configuration file where we specified `hifiasm-write-ec`
+- name: dry-run-write-ec
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_write_ec.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    contains_regex:
+      # Test if --write-ec was passed to hifiasm
+      - 'hifiasm .* --write-ec'
+      # Make sure the error correcte fasta file is part of the rule output
+      - 'output: .* GM24385/assembly/GM24385.ec.fa'
     must_not_contain:
       - rror
   stderr:

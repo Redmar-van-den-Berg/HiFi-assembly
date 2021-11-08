@@ -10,6 +10,7 @@ that users understand how the changes affect the new version.
 
 v0.3-dev
 ---------------------------
++ Add option `hifiasm-write-ec`, to set the `--write-ec` option in HiFiasm
 + Include regions from the assembly that overlap, but do not match, the gene of
 interest
 + Add separate bam file output for mapped/unmapped contigs

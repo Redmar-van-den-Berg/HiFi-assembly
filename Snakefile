@@ -49,8 +49,12 @@ rule assemble:
         # NOTE: The assembly contains occasional phase switching, use with
         # extreme caution
         p_ctg = '{sample}/assembly/{sample}.bp.p_ctg.gfa',
+
+        # Error corrected input reads
+        ec_fasta = '{sample}/assembly/{sample}.ec.fa' if 'hifiasm-write-ec' in config else [],
     params:
-        flags = config.get('hifiasm-flags', '')
+        flags = config.get('hifiasm-flags', ''),
+        write_ec = '--write-ec' if 'hifiasm-write-ec' in config else '',
     threads:
         12
     log:
@@ -59,7 +63,7 @@ rule assemble:
         containers['hifiasm']
     shell: """
         hifiasm -o {wildcards.sample}/assembly/{wildcards.sample} \
-        -t {threads} {params} \
+        -t {threads} {params} {params.write_ec} \
         {input.fasta} 2> {log}
     """
 
