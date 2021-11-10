@@ -58,8 +58,7 @@ rule assemble:
         # Error corrected input reads
         ec_fasta = '{sample}/assembly/{sample}.ec.fa' if 'hifiasm-write-ec' in config else [],
     params:
-        flags = config.get('hifiasm-flags', ''),
-        write_ec = '--write-ec' if 'hifiasm-write-ec' in config else '',
+        flags = get_hifiasm_flags(),
     threads:
         12
     log:
@@ -69,7 +68,7 @@ rule assemble:
     shell: """
         hifiasm -o {wildcards.sample}/assembly/{wildcards.sample} \
         -t {threads} \
-        {params.flags} {params.write_ec} \
+        {params.flags} \
         {input.fasta} 2> {log}
     """
 

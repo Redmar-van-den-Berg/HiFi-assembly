@@ -28,12 +28,12 @@ def get_hifiasm_flags():
         pipeline, and some can be specified by the user.
     """
     # All the flags specified by the user
-    flags = set(config.get('hifiasm-flags', ''))
+    flags = set(config.get('hifiasm-flags', '').split(' '))
 
-    # Did the user specify they want the error corrected reads, we add those
-    # to the flags for HiFiasm. (This setting also changes the behaviour of the
-    # pipeline, which is why this flag isn't passed to HiFiasm in
-    # 'hifiasm-flags'
+    # If the user specified they want error corrected reads, we add the
+    # apropriate to the flags for HiFiasm. (This setting also changes the
+    # behaviour of the pipeline, which is why this flag isn't passed to HiFiasm
+    # in 'hifiasm-flags'
     if 'hifiasm-write-ec' in config:
         flags.add('--write-ec')
 
