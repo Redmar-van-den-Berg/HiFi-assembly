@@ -183,7 +183,7 @@
   exit_code: 0
   stdout:
     contains_regex:
-      # Test if the p_utg GFA file is used to create the fasta file
+      # Test if the a_ctg GFA file is used to create the fasta file
       - 'input: GM24385/assembly/GM24385.bp.a_ctg.gfa, .*gfa-to-fasta.py'
 
 # Configuration file where we specified `hifiasm-write-ec`
