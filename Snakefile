@@ -53,7 +53,7 @@ rule assemble:
 
         # Alternate assembly contig graph (prefix.a_ctg.gfa). This graph
         # consists of all assemblies that are discarded in primary contig graph
-        a_ctg = '{sample}/assembly/{sample}.bp.a_ctg.gfa',
+        #a_ctg = '{sample}/assembly/{sample}.bp.a_ctg.gfa',
 
         # Error corrected input reads
         ec_fasta = '{sample}/assembly/{sample}.ec.fa' if 'hifiasm-write-ec' in config else [],
@@ -68,7 +68,8 @@ rule assemble:
         containers['hifiasm']
     shell: """
         hifiasm -o {wildcards.sample}/assembly/{wildcards.sample} \
-        -t {threads} {params.flags} {params.write_ec} \
+        -t {threads} \
+        {params.flags} {params.write_ec} \
         {input.fasta} 2> {log}
     """
 
