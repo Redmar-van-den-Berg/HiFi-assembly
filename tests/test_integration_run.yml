@@ -158,7 +158,7 @@
 # Configuration file where we specified `hifiasm-write-ec` AND `reference`
 - name: integration-write-ec-reference
   tags:
-    - dry-run
+    - integration
   command: >
     snakemake
       --reason
