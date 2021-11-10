@@ -51,6 +51,10 @@ rule assemble:
         # extreme caution
         p_ctg = '{sample}/assembly/{sample}.bp.p_ctg.gfa',
 
+        # Alternate assembly contig graph (prefix.a_ctg.gfa). This graph
+        # consists of all assemblies that are discarded in primary contig graph
+        a_ctg = '{sample}/assembly/{sample}.bp.a_ctg.gfa',
+
         # Error corrected input reads
         ec_fasta = '{sample}/assembly/{sample}.ec.fa' if 'hifiasm-write-ec' in config else [],
     params:

@@ -46,7 +46,7 @@ The following settings are available for the pipeline, place them under the
 | reference                         | Optional file     | If specified, the contigs will be mapped to the reference |
 | genes                             | Optional file     | If specified, the genes will be compared to the contigs using BLAST |
 | hifiasm-flags                     | Optional string   | Flags to pass to HiFiasm                |
-| hifiasm-output                    | Optional string   | HiFiasm output file to use. Choices: `p_utg`, `p_utg`, `p_ctg`, default is `r_utg`. Note that `p_ctg` can contain phase switching |
+| hifiasm-output                    | Optional string   | HiFiasm output file to use. Choices: `p_utg`, `p_utg`, `p_ctg`, `a_ctg`, default is `r_utg`. Note that `p_ctg` can contain phase switching |
 | hifiasm-write-ec                  | Optional boolean  | HiFiasm writes error corrected reads to FASTA. If `reference` is specified, the reads are also  mapped to the reference |
 
 ### Multiple bam files per sample
