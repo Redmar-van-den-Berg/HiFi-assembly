@@ -83,6 +83,24 @@ class hifiasm():
             # files are not supported in Snakemake
             return 'log/{sample}_hifiasm.txt'
 
+    def hap1(sample):
+        if '--primary' in config['hifiasm-flags']:
+            # Hap1 is not defined when --primary is passed to HiFiasm. Return
+            # another file that exists since 'emtpy' output files are not
+            # supported in Snakemake
+            return '{sample}/assembly/{sample}.ovlp.source.bin'
+        else:
+            return f'{sample}/assembly/{sample}.bp.hap1.p_ctg.gfa'
+
+    def hap2(sample):
+        if '--primary' in config['hifiasm-flags']:
+            # Hap1 is not defined when --primary is passed to HiFiasm. Return
+            # another file that exists since 'emtpy' output files are not
+            # supported in Snakemake
+            return '{sample}/assembly/{sample}.ovlp.reverse.bin'
+        else:
+            return f'{sample}/assembly/{sample}.bp.hap2.p_ctg.gfa'
+
 # Set default values
 if 'hifiasm-output' not in config:
     config['hifiasm-output'] = 'r_utg'

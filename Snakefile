@@ -55,6 +55,12 @@ rule assemble:
         # consists of all assemblies that are discarded in primary contig graph
         a_ctg = hifiasm.a_ctg('{sample}'),
 
+        # Partially phased contig graph of haplotype1
+        hap1 = hifiasm.hap1('{sample}'),
+
+        # Partially phased contig graph of haplotype2
+        hap2 = hifiasm.hap2('{sample}'),
+
         # Error corrected input reads
         ec_fasta = '{sample}/assembly/{sample}.ec.fa' if 'hifiasm-write-ec' in config else [],
     params:
