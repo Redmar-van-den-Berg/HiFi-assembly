@@ -8,7 +8,10 @@ This document is user facing. Please word the changes in such a way
 that users understand how the changes affect the new version.
 -->
 
-v0.3-dev
+v0.4-dev
+---------------------------
+
+v0.3
 ---------------------------
 + Add support for selecting `hap1`, `hap2` as HiFiasm output
 + Add support for selecting multiple HiFiasm outputs to use
