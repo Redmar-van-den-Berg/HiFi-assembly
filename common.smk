@@ -21,8 +21,8 @@ def get_assembly():
     """ Pick the correct HiFi output file based on the configuration """
     return rules.assemble.output[config['hifiasm-output']]
 
-def get_hifiasm_flags():
-    """ Get the flags to pass to hifiasm
+def set_hifiasm_flags():
+    """ Set the flags to pass to hifiasm
 
         This can get a bit complex, since some flags will be set by the
         pipeline, and some can be specified by the user.
@@ -37,8 +37,12 @@ def get_hifiasm_flags():
     if 'hifiasm-write-ec' in config:
         flags.add('--write-ec')
 
-    return ' '.join(flags)
+    # Assign the set of flags back to the configuration
+    config['hifiasm-flags'] = flags
 
 # Set default values
 if 'hifiasm-output' not in config:
     config['hifiasm-output'] = 'r_utg'
+
+# Set hifiasm flags
+set_hifiasm_flags()
