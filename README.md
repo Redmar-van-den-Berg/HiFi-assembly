@@ -46,8 +46,8 @@ The following settings are available for the pipeline, place them under the
 | reference                         | Optional file     | If specified, the contigs will be mapped to the reference |
 | genes                             | Optional file     | If specified, the genes will be compared to the contigs using BLAST |
 | hifiasm-flags                     | Optional string   | Flags to pass to HiFiasm                |
-| hifiasm-output                    | Optional string   | HiFiasm output file to use. Choices: `p_utg`, `p_utg`, `p_ctg`, `a_ctg`, default is `r_utg`. Note that `p_ctg` can contain phase switching |
-| hifiasm-write-ec                  | Optional boolean  | HiFiasm writes error corrected reads to FASTA. If `reference` is specified, the reads are also  mapped to the reference |
+| hifiasm-output                    | Optional string   | HiFiasm output file to use. Choose any combination of `p_utg`, `p_utg`, `p_ctg`, `a_ctg`, `hap1` or `hap2`, default is `r_utg`. Note that `p_ctg` can contain phase switching |
+| hifiasm-write-ec                  | Optional boolean  | HiFiasm writes error corrected reads to FASTA. If `reference` is specified, the reads are also mapped to the reference |
 
 ### Multiple bam files per sample
 If you have multiple bam files per sample, you can utilise the
@@ -66,7 +66,7 @@ in the analysis.
 ### Assembly
 The reads from the bam file(s) are assembled using `HiFiasm` with default
 settings. You can control the behaviour of the assembly using the
-`hifiasm-flags` in the project configuration file.  This pipeline uses the
+`hifiasm-flags` in the project configuration file. This pipeline uses the
 haplotype-resolved raw unitig graph from HiFiasm by default, since this graph
 contains all haplotype information. This can be changed with the
 `hifiasm-output` option, see above. Please carefully read the [HiFiasm
