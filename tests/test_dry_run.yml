@@ -14,9 +14,9 @@
       # Test whether the input bamfile is converted to fasta
       - samtools fasta $bamfile 2>> log/GM24385_bam_to_fasta.txt | gzip >> GM24385/input/GM24385.fasta.gz
       # Test whether we plan to convert the GFA graph to fasta
-      - bp.r_utg.fasta
+      - GM24385/assembly/GM24385.assembly.fasta
       # Test whether we plan to map the contigs to the reference
-      - minimap2 -a tests/data/reference/ASL.fasta GM24385/assembly/GM24385.bp.r_utg.fasta
+      - minimap2 -a tests/data/reference/ASL.fasta GM24385/assembly/GM24385.assembly.fasta
       # Test whether we plan to run blast
       - GM24385/blast/GM24385_contigs_blast.json
       # Test whether we plan to create a blast database
@@ -242,3 +242,20 @@
   stderr:
     must_not_contain:
       - rror
+
+# Configuration file where we specify two HiFiasm outputs to use
+- name: dry-run-two-outputs
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_two_outputs.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    contains_regex:
+      # Test whether both HiFiasm output files are passed to gfa-to-fasta
+      - 'input: .*GM24385.bp.p_utg.gfa, .*GM24385.bp.p_ctg.gfa, .*gfa-to-fasta.py'

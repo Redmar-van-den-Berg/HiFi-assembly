@@ -27,7 +27,7 @@
       contains:
         - 'M::ha_print_ovlp_stat] # overlaps:'
     # Test whether the GFA assembly was successfully converted to fasta
-    - path: GM24385/assembly/GM24385.bp.r_utg.fasta
+    - path: GM24385/assembly/GM24385.assembly.fasta
       contains:
         - '>utg'
     # Test whether the contigs were mapped to the reference
@@ -235,3 +235,27 @@
   stderr:
     contains_regex:
       - 'input: GM24385/assembly/GM24385.a_ctg.gfa, .*gfa-to-fasta.py'
+
+# Configuration file where we specified `hifiasm-write-ec` AND `a_ctg`
+- name: integration-two-outputs
+  tags:
+    - integration
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_two_outputs.yml
+      --snakefile Snakefile
+  exit_code: 0
+  files:
+    # Test if the fasta file contains sequences from both specified HiFiasm
+    # outputs
+    - path: GM24385/assembly/GM24385.assembly.fasta
+      contains:
+        # p_utg
+        - utg000001l
+        # p_ctg
+        - ptg000001l

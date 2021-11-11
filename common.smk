@@ -19,7 +19,10 @@ def get_bamfiles(wildcards):
 
 def get_assembly():
     """ Pick the correct HiFi output file based on the configuration """
-    return rules.assemble.output[config['hifiasm-output']]
+    files = list()
+    for out in config['hifiasm-output']:
+        files.append(rules.assemble.output[out])
+    return files
 
 def set_hifiasm_flags():
     """ Set the flags to pass to hifiasm
@@ -39,7 +42,7 @@ def set_hifiasm_flags():
 
     # If we want to use the a_ctg output, we have to pass the --primary flag to
     # HiFiasm
-    if config['hifiasm-output'] == 'a_ctg':
+    if 'a_ctg' in config['hifiasm-output']:
         flags.add('--primary')
 
     # Assign the set of flags back to the configuration
@@ -83,6 +86,10 @@ class hifiasm():
 # Set default values
 if 'hifiasm-output' not in config:
     config['hifiasm-output'] = 'r_utg'
+
+# Make sure hifiasm-output is always a list
+if isinstance(config['hifiasm-output'], str):
+    config['hifiasm-output'] = [config['hifiasm-output']]
 
 # Set hifiasm flags
 set_hifiasm_flags()

@@ -5,7 +5,7 @@ include: 'common.smk'
 
 rule all:
     input:
-        assembly = [f'{sample}/assembly/{sample}.bp.{config["hifiasm-output"]}.fasta' for sample in samples],
+        assembly = [f'{sample}/assembly/{sample}.assembly.fasta' for sample in samples],
         mapped_contigs = [f'{sample}/bamfile/{sample}_contigs.bam' for sample in samples] if 'reference' in config else [],
         json = [f'{sample}/blast/{sample}_contigs_blast.json' for sample in samples] if 'genes' in config else [],
         ec_bam = [f'{sample}/bamfile/{sample}.ec.bam' for sample in samples] if 'hifiasm-write-ec' in config and 'reference' in config else [],
@@ -78,13 +78,13 @@ rule assembly_to_fasta:
         gfa = get_assembly(),
         script = srcdir('scripts/gfa-to-fasta.py')
     output:
-        f'{{sample}}/assembly/{{sample}}.bp.{config["hifiasm-output"]}.fasta'
+        '{sample}/assembly/{sample}.assembly.fasta'
     log:
         'log/{sample}_assembly_to_fasta.txt'
     container:
         containers['pyblast']
     shell: """
-        python3 {input.script} {input.gfa} {output} 2> {log}
+        python3 {input.script} {input.gfa} > {output} 2> {log}
     """
 
 rule map_contigs:

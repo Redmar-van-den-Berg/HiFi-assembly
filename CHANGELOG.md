@@ -10,7 +10,8 @@ that users understand how the changes affect the new version.
 
 v0.3-dev
 ---------------------------
-+ Add support for selecting `a_ctg` as hifiasm output
++ Add support for selecting multiple HiFiasm outputs to use
++ Add support for selecting `a_ctg` as HiFiasm output
 + Add option `hifiasm-write-ec`, to set the `--write-ec` option in HiFiasm
 + Include regions from the assembly that overlap, but do not match, the gene of
 interest
