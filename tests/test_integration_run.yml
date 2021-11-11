@@ -212,3 +212,26 @@
   stderr:
     contains_regex:
       - 'input: GM24385/assembly/GM24385.r_utg.gfa, .*gfa-to-fasta.py'
+
+# Configuration file where we specified `hifiasm-write-ec` AND `a_ctg`
+- name: integration-write-ec-a_ctg
+  tags:
+    - integration
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_write_ec_a_ctg.yml
+      --snakefile Snakefile
+  exit_code: 0
+  files:
+    # Make sure the error correcte fasta file was mapped to the reference
+    - path: GM24385/bamfile/GM24385.ec.bam
+    # And also that the unmapped reads were written to a different file
+    - path:  GM24385/bamfile/GM24385.ec.unmapped.bam
+  stderr:
+    contains_regex:
+      - 'input: GM24385/assembly/GM24385.a_ctg.gfa, .*gfa-to-fasta.py'
