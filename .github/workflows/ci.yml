@@ -28,6 +28,7 @@ jobs:
           - dry-run-genes-only
           - dry-run-p_utg
           - dry-run-p_ctg
+          - dry-run-a_ctg
           - dry-run-write-ec
           - dry-run-write-ec-reference
           - integration-vanilla
@@ -36,6 +37,9 @@ jobs:
           - integration-genes-only
           - integration-write-ec
           - integration-write-ec-reference
+          - integration-a_ctg
+          - integration-primary
+          - integration-write-ec-a_ctg
     steps:
     - uses: actions/checkout@v2
 
