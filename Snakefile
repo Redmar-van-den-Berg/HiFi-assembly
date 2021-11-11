@@ -38,22 +38,22 @@ rule assemble:
     output:
         # Haplotype-resolved raw unitig graph.
         # This graph keeps all haplotype information.
-        r_utg = '{sample}/assembly/{sample}.bp.r_utg.gfa',
+        r_utg = hifiasm.r_utg('{sample}'),
 
         # Haplotype-resolved processed unitig graph without small bubbles.
         # Small bubbles might be caused by somatic mutations or noise in data,
         # which are not the real haplotype information.
-        p_utg = '{sample}/assembly/{sample}.bp.p_utg.gfa',
+        p_utg = hifiasm.p_utg('{sample}'),
 
         # Assembly graph of primary contigs. This graph includes a complete
         # assembly with long stretches of phased blocks.
         # NOTE: The assembly contains occasional phase switching, use with
         # extreme caution
-        p_ctg = '{sample}/assembly/{sample}.bp.p_ctg.gfa',
+        p_ctg = hifiasm.p_ctg('{sample}'),
 
         # Alternate assembly contig graph (prefix.a_ctg.gfa). This graph
         # consists of all assemblies that are discarded in primary contig graph
-        #a_ctg = '{sample}/assembly/{sample}.bp.a_ctg.gfa',
+        a_ctg = hifiasm.a_ctg('{sample}'),
 
         # Error corrected input reads
         ec_fasta = '{sample}/assembly/{sample}.ec.fa' if 'hifiasm-write-ec' in config else [],

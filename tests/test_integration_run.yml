@@ -174,3 +174,20 @@
     - path: GM24385/bamfile/GM24385.ec.bam
     # And also that the unmapped reads were written to a different file
     - path:  GM24385/bamfile/GM24385.ec.unmapped.bam
+
+# Configuration file where we want the a_ctg output
+- name: integration-a_ctg
+  tags:
+    - integration
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_a_ctg.yml
+      --snakefile Snakefile GM24385/assembly/GM24385.a_ctg.gfa
+  exit_code: 0
+  files:
+    - path: GM24385/assembly/GM24385.a_ctg.gfa

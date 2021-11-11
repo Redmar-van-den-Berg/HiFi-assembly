@@ -37,8 +37,48 @@ def set_hifiasm_flags():
     if 'hifiasm-write-ec' in config:
         flags.add('--write-ec')
 
+    # If we want to use the a_ctg output, we have to pass the --primary flag to
+    # HiFiasm
+    if config['hifiasm-output'] == 'a_ctg':
+        flags.add('--primary')
+
     # Assign the set of flags back to the configuration
     config['hifiasm-flags'] = flags
+
+class hifiasm():
+    """ Namespace for hifiasm functions.
+
+        HiFiasm produces different output files, or the same output files with
+        different names, depending on the flags that are passed. To make sure
+        snakemake doesn't crash on missing output files, we need helper
+        functions that know about the flags for HiFiasm to generate the
+        exptected output files
+    """
+    def r_utg(sample):
+        if '--primary' in config['hifiasm-flags']:
+            return f'{sample}/assembly/{sample}.r_utg.gfa'
+        else:
+            return f'{sample}/assembly/{sample}.bp.r_utg.gfa'
+
+    def p_utg(sample):
+        if '--primary' in config['hifiasm-flags']:
+            return f'{sample}/assembly/{sample}.p_utg.gfa'
+        else:
+            return f'{sample}/assembly/{sample}.bp.p_utg.gfa'
+
+    def p_ctg(sample):
+        if '--primary' in config['hifiasm-flags']:
+            return f'{sample}/assembly/{sample}.p_ctg.gfa'
+        else:
+            return f'{sample}/assembly/{sample}.bp.p_ctg.gfa'
+
+    def a_ctg(sample):
+        if '--primary' in config['hifiasm-flags']:
+            return f'{sample}/assembly/{sample}.a_ctg.gfa'
+        else:
+            # Return another file that exists, since multiple 'empty' output
+            # files are not supported in Snakemake
+            return 'log/{sample}_hifiasm.txt'
 
 # Set default values
 if 'hifiasm-output' not in config:

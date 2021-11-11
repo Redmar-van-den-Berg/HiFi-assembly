@@ -170,21 +170,23 @@
       - rror
 
 # Configuration file where we use the a_ctg output from HiFiasm
-#- name: dry-run-a_ctg
-#  tags:
-#    - dry-run
-#  command: >
-#    snakemake
-#      --dryrun
-#      --reason
-#      --printshellcmds
-#      --config pepfile=tests/pep/project_config_a_ctg.yml
-#      --snakefile Snakefile
-#  exit_code: 0
-#  stdout:
-#    contains_regex:
-#      # Test if the a_ctg GFA file is used to create the fasta file
-#      - 'input: GM24385/assembly/GM24385.bp.a_ctg.gfa, .*gfa-to-fasta.py'
+- name: dry-run-a_ctg
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_a_ctg.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    contains_regex:
+      # Test if the a_ctg GFA file is used to create the fasta file
+      - 'input: GM24385/assembly/GM24385.a_ctg.gfa, .*gfa-to-fasta.py'
+      # Test if the --primary flag is passed to HiFiasm for a_ctg
+      - 'hifiasm .* --primary'
 
 # Configuration file where we specified `hifiasm-write-ec`
 - name: dry-run-write-ec
