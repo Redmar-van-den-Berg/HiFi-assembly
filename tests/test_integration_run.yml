@@ -191,3 +191,24 @@
   exit_code: 0
   files:
     - path: GM24385/assembly/GM24385.a_ctg.gfa
+
+# Configuration file where we directly pass the --primary flag to HiFiasm
+# (Instead of enabling it when the user wants to use the a_ctg # output).
+- name: integration-primary
+  tags:
+    - integration
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_primary.yml
+      --snakefile Snakefile
+  exit_code: 0
+  files:
+    - path: GM24385/bamfile/GM24385_contigs.bam
+  stderr:
+    contains_regex:
+      - 'input: GM24385/assembly/GM24385.r_utg.gfa, .*gfa-to-fasta.py'

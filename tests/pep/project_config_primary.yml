@@ -1,0 +1,5 @@
+pep_version: 2.0.0
+sample_table: "samples.csv"
+HiFi-assembly:
+  hifiasm-flags: "-f0 --primary"
+  reference: tests/data/reference/ASL.fasta
