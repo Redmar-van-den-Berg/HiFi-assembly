@@ -32,6 +32,7 @@ jobs:
           - dry-run-write-ec
           - dry-run-write-ec-reference
           - dry-run-two-outputs
+          - dry-run-hap1-hap2
           - integration-vanilla
           - integration-two-bamfiles
           - integration-reference-only
@@ -42,6 +43,7 @@ jobs:
           - integration-primary
           - integration-write-ec-a_ctg
           - integration-two-outputs
+          - integration-hap1-hap2
     steps:
     - uses: actions/checkout@v2
 

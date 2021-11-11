@@ -259,3 +259,26 @@
         - utg000001l
         # p_ctg
         - ptg000001l
+
+# Configuration file where we specify hap1 and hap2 as output
+- name: integration-hap1-hap2
+  tags:
+    - integration
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_hap1_hap2.yml
+      --snakefile Snakefile
+  exit_code: 0
+  files:
+    # Test if the fasta file contains sequences from both hap1 and hap2
+    - path: GM24385/assembly/GM24385.assembly.fasta
+      contains:
+        # hap1
+        - h1tg000001l
+        # hap2
+        - h2tg000001l

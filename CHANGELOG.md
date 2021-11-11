@@ -10,6 +10,7 @@ that users understand how the changes affect the new version.
 
 v0.3-dev
 ---------------------------
++ Add support for selecting `hap1`, `hap2` as HiFiasm output
 + Add support for selecting multiple HiFiasm outputs to use
 + Add support for selecting `a_ctg` as HiFiasm output
 + Add option `hifiasm-write-ec`, to set the `--write-ec` option in HiFiasm

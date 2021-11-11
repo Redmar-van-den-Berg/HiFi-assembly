@@ -259,3 +259,20 @@
     contains_regex:
       # Test whether both HiFiasm output files are passed to gfa-to-fasta
       - 'input: .*GM24385.bp.p_utg.gfa, .*GM24385.bp.p_ctg.gfa, .*gfa-to-fasta.py'
+
+# Configuration file where we specify hap1 hap2 as output
+- name: dry-run-hap1-hap2
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_hap1_hap2.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    contains_regex:
+      # Test whether both HiFiasm output files are passed to gfa-to-fasta
+      - 'input: .*GM24385.bp.hap1.p_ctg.gfa, .*GM24385.bp.hap2.p_ctg.gfa, .*gfa-to-fasta.py'
