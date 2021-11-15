@@ -276,3 +276,20 @@
     contains_regex:
       # Test whether both HiFiasm output files are passed to gfa-to-fasta
       - 'input: .*GM24385.bp.hap1.p_ctg.gfa, .*GM24385.bp.hap2.p_ctg.gfa, .*gfa-to-fasta.py'
+
+# Configuration where we pass the -l0 flag to HiFiasm
+- name: dry-run-l0-hap1
+  tags:
+    - integration
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_l0_hap1.yml
+      --snakefile Snakefile
+  exit_code: 1
+  stdout:
+    contains:
+      - RuntimeError
+      - 'hap1,hap2 output is not available in combination with "-l0"'

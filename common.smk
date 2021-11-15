@@ -45,6 +45,13 @@ def set_hifiasm_flags():
     if 'a_ctg' in config['hifiasm-output']:
         flags.add('--primary')
 
+    # Raise warning for incompatible flags
+    ## There is no hap1/2 if HiFiasm is run with -l0
+    if '-l0' in flags:
+        hap_out = config['hifiasm-output']
+        if 'hap1' in hap_out or 'hap2' in hap_out:
+            raise RuntimeError('hap1,hap2 output is not available in combination with "-l0"')
+
     # Assign the set of flags back to the configuration
     config['hifiasm-flags'] = flags
 
