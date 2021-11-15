@@ -33,6 +33,7 @@ jobs:
           - dry-run-write-ec-reference
           - dry-run-two-outputs
           - dry-run-hap1-hap2
+          - dry-run-l0-hap1
           - integration-vanilla
           - integration-two-bamfiles
           - integration-reference-only
