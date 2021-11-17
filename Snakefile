@@ -75,7 +75,7 @@ rule assemble:
         hifiasm -o {wildcards.sample}/assembly/{wildcards.sample} \
         -t {threads} \
         {params.flags} \
-        {input.fasta} 2> {log}
+        {input.fasta} &> {log}
     """
 
 rule assembly_to_fasta:
