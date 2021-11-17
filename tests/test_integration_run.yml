@@ -175,7 +175,37 @@
     # And also that the unmapped reads were written to a different file
     - path:  GM24385/bamfile/GM24385.ec.unmapped.bam
 
-# Configuration file where we want the a_ctg output
+# Configuration file where we want the a_ctg output. NOTE: the a_ctg output
+# file from HiFiasm will be empty in this test case. This test only runs up to
+# blastdb, and tests if the dummy fasta file is created
+- name: integration-a_ctg-dummy
+  tags:
+    - integration
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_a_ctg.yml
+      --snakefile Snakefile GM24385/blast/GM24385.blastdb.nhr
+  exit_code: 0
+  files:
+    # The a_ctg output file
+    - path: GM24385/assembly/GM24385.a_ctg.gfa
+    # Dummy file that is created to prevent makeblastdb from crashing on the
+    # empty a_ctg file
+    - path: GM24385/blast/dummy.fasta
+      contains:
+        - ">dummy"
+        - "A"
+    # The blastdb file that is created
+    - path: GM24385/blast/GM24385.blastdb.nhr
+
+# Configuration file where we want the a_ctg output. NOTE: the a_ctg output
+# file from HiFiasm will be empty in this test case. This test makes sure that
+# all pipeline output files are still created, even when the assembly is empty
 - name: integration-a_ctg
   tags:
     - integration
@@ -187,10 +217,17 @@
       --latency-wait 120
       --use-singularity --singularity-args ' --cleanenv --bind /tmp'
       --config pepfile=tests/pep/project_config_a_ctg.yml
-      --snakefile Snakefile GM24385/assembly/GM24385.a_ctg.gfa
+      --snakefile Snakefile
   exit_code: 0
   files:
+    # The a_ctg output file
     - path: GM24385/assembly/GM24385.a_ctg.gfa
+    # The final (empty) blast results in json format
+    - path: GM24385/blast/GM24385_contigs_blast.json
+      contains:
+        - "[]"
+    # The (empty) bam file for the assembly
+    - path: GM24385/bamfile/GM24385_contigs.bam
 
 # Configuration file where we directly pass the --primary flag to HiFiasm
 # (Instead of enabling it when the user wants to use the a_ctg # output).

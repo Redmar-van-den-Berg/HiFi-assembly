@@ -10,6 +10,7 @@ that users understand how the changes affect the new version.
 
 v0.4-dev
 ---------------------------
++ Fix a bug where the pipeline crashes if an assembly output is an empty file
 
 v0.3
 ---------------------------

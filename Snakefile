@@ -171,10 +171,19 @@ rule make_blast_db:
     shell: """
         mkdir -p {output.folder} 2> {log}
 
+        # If the assembly is empty, we need to create a dummy file or
+        # makeblastdb will crash
+        input={input}
+        if [ ! -s $input ]; then
+            input={wildcards.sample}/blast/dummy.fasta
+            echo ">dummy" > $input
+            echo "A" >> $input
+        fi
+
         makeblastdb \
             -input_type fasta \
             -dbtype nucl \
-            -in {input} \
+            -in $input \
             -out {params.dbname} 2>> {log}
     """
 

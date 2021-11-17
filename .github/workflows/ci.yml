@@ -40,6 +40,7 @@ jobs:
           - integration-genes-only
           - integration-write-ec
           - integration-write-ec-reference
+          - integration-a_ctg-dummy
           - integration-a_ctg
           - integration-primary
           - integration-write-ec-a_ctg
