@@ -28,7 +28,8 @@ pep_version: 2.0.0
 sample_table: "samples.csv"
 HiFi-assembly:
   # This hifias-flag enables the 'low memory' mode, usefull for testing
-  hifiasm-flags: "-f0 "
+  hifiasm-flags:
+    - -f0
   reference: tests/data/reference/ASL.fasta
   genes: tests/data/reference/ASL.fasta
 ```
@@ -45,8 +46,8 @@ The following settings are available for the pipeline, place them under the
 | --------------------------------- | ----------------- | --------------------------------------- |
 | reference                         | Optional file     | If specified, the contigs will be mapped to the reference |
 | genes                             | Optional file     | If specified, the genes will be compared to the contigs using BLAST |
-| hifiasm-flags                     | Optional string   | Flags to pass to HiFiasm                |
-| hifiasm-output                    | Optional string   | HiFiasm output file to use. Choose any combination of `p_utg`, `p_utg`, `p_ctg`, `a_ctg`, `hap1` or `hap2`, default is `r_utg`. Note that `p_ctg` can contain phase switching |
+| hifiasm-flags                     | Optional list | List of flags to pass to HiFiasm                |
+| hifiasm-output                    | Optional list | List of HiFiasm output files to use. Choose any combination of `p_utg`, `p_utg`, `p_ctg`, `a_ctg`, `hap1` or `hap2`, default is `r_utg`. Note that `p_ctg` can contain phase switching |
 | hifiasm-write-ec                  | Optional boolean  | HiFiasm writes error corrected reads to FASTA. If `reference` is specified, the reads are also mapped to the reference |
 
 ### Multiple bam files per sample

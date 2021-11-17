@@ -10,6 +10,8 @@ that users understand how the changes affect the new version.
 
 v0.4-dev
 ---------------------------
++ Change hifiasm-flags into a list to ensure parameter value pairs are kept
+together
 + Fix a bug where the pipeline crashes if an assembly output is an empty file
 
 v0.3

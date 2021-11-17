@@ -31,7 +31,7 @@ def set_hifiasm_flags():
         pipeline, and some can be specified by the user.
     """
     # All the flags specified by the user
-    flags = set(config.get('hifiasm-flags', '').split(' '))
+    flags = set(config.get('hifiasm-flags', list()))
 
     # If the user specified they want error corrected reads, we add the
     # apropriate to the flags for HiFiasm. (This setting also changes the
