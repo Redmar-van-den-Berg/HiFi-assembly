@@ -119,7 +119,7 @@ matches the reference gene is included in the output.
 If `extend` is selected, the blast hit is extended to the size of the reference
 gene (if possible), and this whole region is included in the output.
 
-![assume reference](images/drawing-assume-ref.svg)
+![assume reference](images/drawing-assume-ref.png)
 
 If `assume-reference` is selected as `blast-output` and the assembly is smaller
 than the reference gene, we assume that the missing parts of the assmbly are
