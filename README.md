@@ -42,13 +42,14 @@ GM24385,tests/data/GM24385_ASL.bam
 ### Supported settings
 The following settings are available for the pipeline, place them under the
 `HiFi-assembly` section in the project configuration.
-| Option                            | Type              | Explanation                             |
-| --------------------------------- | ----------------- | --------------------------------------- |
-| reference                         | Optional file     | If specified, the contigs will be mapped to the reference |
-| genes                             | Optional file     | If specified, the genes will be compared to the contigs using BLAST |
-| hifiasm-flags                     | Optional list | List of flags to pass to HiFiasm                |
-| hifiasm-output                    | Optional list | List of HiFiasm output files to use. Choose any combination of `p_utg`, `p_utg`, `p_ctg`, `a_ctg`, `hap1` or `hap2`, default is `r_utg`. Note that `p_ctg` can contain phase switching |
-| hifiasm-write-ec                  | Optional boolean  | HiFiasm writes error corrected reads to FASTA. If `reference` is specified, the reads are also mapped to the reference |
+| Option               | Type              | Explanation                             |
+| ---------------------| ----------------- | --------------------------------------- |
+| reference            | Optional file     | If specified, the contigs will be mapped to the reference |
+| genes                | Optional file     | If specified, the genes will be compared to the contigs using BLAST |
+| hifiasm-flags        | Optional list     | List of flags to pass to HiFiasm        |
+| hifiasm-output       | Optional list     | List of HiFiasm output files to use. Choose any combination of `p_utg`, `p_utg`, `p_ctg`, `a_ctg`, `hap1` or `hap2`, default is `r_utg`. Note that `p_ctg` can contain phase switching |
+| hifiasm-write-ec     | Optional boolean  | HiFiasm writes error corrected reads to FASTA. If `reference` is specified, the reads are also mapped to the reference |
+| blast-output         | Optional string   | Type of blast output to use, choose from `hit`, `extend` or `assume-reference`. See below for an explanation |
 
 ### Multiple bam files per sample
 If you have multiple bam files per sample, you can utilise the
@@ -100,3 +101,29 @@ information about the region of the contig that matches, i.e.
 **Note: if there are regions in the assembly that overlap a gene, but are not
 included in the BLAST hit (i.e. that are too different from the gene), these
 will still be included in the fasta file for that gene.**
+
+#### blast-output
+After the contigs are blasted against the genes of interest, there are several
+ways to parse the resulting hits, which can be specified using the
+`blast-output` option.
+
+The following picture shows the situation where the assembly and the gene of
+interest are the same length, but are only identical in a small region in the
+center.
+
+![partial overlap](images/drawing-hit-extend.png)
+
+If `hit` is selected as `blast-output`, only the region from the assembly that
+matches the reference gene is included in the output.
+
+If `extend` is selected, the blast hit is extended to the size of the reference
+gene (if possible), and this whole region is included in the output.
+
+![assume reference](images/drawing-assume-ref.svg)
+
+If `assume-reference` is selected as `blast-output` and the assembly is smaller
+than the reference gene, we assume that the missing parts of the assmbly are
+identical to the reference gene, and this is included in the output.
+In the case where the assembly and the gene of interest
+`hit` will only include the region from the contig that is included in the
+blast hit, even if both the contig and the gene of interest extend further.
