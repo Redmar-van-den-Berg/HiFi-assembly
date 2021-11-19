@@ -296,3 +296,21 @@
     contains:
       - RuntimeError
       - 'hap1,hap2 output is not available in combination with "-l0"'
+
+# Test if blast-output: extend is passed to the apropriate script
+- name: dry-run-extend
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_extend.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    contains_regex:
+      # Test wether blast-output is set to 'extend' if this is specified
+      # configuration
+      - 'parse-blast.py .* --blast-output extend'
