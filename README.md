@@ -111,7 +111,7 @@ The following picture shows the situation where the assembly and the gene of
 interest are the same length, but are only identical in a small region in the
 center.
 
-![partial overlap](images/drawing-hit-extend.png)
+![partial overlap](images/drawing-hit-extend.svg)
 
 If `hit` is selected as `blast-output`, only the region from the assembly that
 matches the reference gene is included in the output.
@@ -119,11 +119,12 @@ matches the reference gene is included in the output.
 If `extend` is selected, the blast hit is extended to the size of the reference
 gene (if possible), and this whole region is included in the output.
 
-![assume reference](images/drawing-assume-ref.png)
+![assume reference](images/drawing-assume-ref.svg)
 
 If `assume-reference` is selected as `blast-output` and the assembly is smaller
 than the reference gene, we assume that the missing parts of the assmbly are
 identical to the reference gene, and this is included in the output.
-In the case where the assembly and the gene of interest
-`hit` will only include the region from the contig that is included in the
-blast hit, even if both the contig and the gene of interest extend further.
+
+If `hit` is selected, the output will only include the region from the contig
+that is included in the blast hit, even if both the contig and the gene of
+interest extend further.

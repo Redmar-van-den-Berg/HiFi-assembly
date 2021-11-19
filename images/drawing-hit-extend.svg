@@ -9,13 +9,13 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   width="193.6797mm"
+   height="91.151825mm"
+   viewBox="0 0 193.6797 91.151825"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
-   sodipodi:docname="drawing.svg">
+   sodipodi:docname="drawing-hit-extend.svg">
   <defs
      id="defs2">
     <inkscape:path-effect
@@ -46,17 +46,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.5471036"
-     inkscape:cx="615.76858"
-     inkscape:cy="520.848"
+     inkscape:zoom="1.3332728"
+     inkscape:cx="301.76688"
+     inkscape:cy="54.051799"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="g4698-5-1-2"
      showgrid="false"
      inkscape:lockguides="true"
      inkscape:window-width="2499"
      inkscape:window-height="1410"
      inkscape:window-x="1501"
-     inkscape:window-y="546"
+     inkscape:window-y="522"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
@@ -73,9 +73,9 @@
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Layer 2">
+     inkscape:label="Layer 2"
+     transform="translate(-10,-92)">
     <g
-       style=""
        transform="translate(0,79.999999)"
        id="g4698-5-1-2"
        inkscape:export-xdpi="221"
@@ -89,13 +89,13 @@
          style="opacity:1;vector-effect:none;fill:#ff1200;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
       <text
          id="text4693-2-7-4"
-         y="96.870964"
-         x="184.00803"
+         y="103.0228"
+         x="88.621567"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.06451607px;line-height:125%;font-family:FreeMono;-inkscape-font-specification:'FreeMono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.61292434px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          xml:space="preserve"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.06451607px;font-family:FreeMono;-inkscape-font-specification:'FreeMono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:1.61292434px"
-           y="96.870964"
-           x="184.00803"
+           y="103.0228"
+           x="88.621567"
            id="tspan4691-9-0-0"
            sodipodi:role="line">extend</tspan></text>
     </g>
@@ -103,7 +103,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-10,-92)">
     <g
        id="g4698"
        inkscape:export-xdpi="221"

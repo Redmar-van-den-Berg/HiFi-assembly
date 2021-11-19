@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
-   viewBox="0 0 210 297"
+   width="198.29666mm"
+   height="92.80629mm"
+   viewBox="0 0 198.29666 92.80629"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
@@ -42,9 +42,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.1879349"
-     inkscape:cx="251.23159"
-     inkscape:cy="536.17565"
+     inkscape:zoom="1.9159294"
+     inkscape:cx="350.82672"
+     inkscape:cy="170.08838"
      inkscape:document-units="mm"
      inkscape:current-layer="g4698-5-1"
      showgrid="false"
@@ -52,7 +52,7 @@
      inkscape:window-width="2499"
      inkscape:window-height="1410"
      inkscape:window-x="1501"
-     inkscape:window-y="546"
+     inkscape:window-y="522"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
@@ -62,14 +62,15 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-10,-91.999994)">
     <g
        id="g4698"
        inkscape:export-filename="/home/trijntje/text4693-2-7-5.png"
@@ -85,12 +86,12 @@
       <text
          id="text4693"
          y="95.925331"
-         x="180.33965"
+         x="184.778"
          style="font-style:normal;font-weight:normal;font-size:5.16649866px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.03329968px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          xml:space="preserve"><tspan
            style="stroke-width:1.03329968px"
            y="95.925331"
-           x="180.33965"
+           x="184.778"
            id="tspan4691"
            sodipodi:role="line">Reference gene</tspan></text>
       <rect
@@ -127,7 +128,7 @@
       <text
          id="text4693-5"
          y="95.925331"
-         x="180.33965"
+         x="184.9566"
          style="font-style:normal;font-weight:normal;font-size:5.16649866px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.03329968px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          xml:space="preserve"
          inkscape:export-filename="/home/trijntje/text4693-2-7-5.png"
@@ -135,7 +136,7 @@
          inkscape:export-ydpi="221"><tspan
            style="stroke-width:1.03329968px"
            y="95.925331"
-           x="180.33965"
+           x="184.9566"
            id="tspan4691-3"
            sodipodi:role="line">Region of blast hit</tspan></text>
     </g>
@@ -240,7 +241,7 @@
       <text
          id="text4693-2-7-4"
          y="104.67725"
-         x="98.13884"
+         x="87.231949"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.06451607px;line-height:125%;font-family:FreeMono;-inkscape-font-specification:'FreeMono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1.61292434px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          xml:space="preserve"
          inkscape:export-filename="/home/trijntje/text4693-2-7-4.png"
@@ -248,7 +249,7 @@
          inkscape:export-ydpi="221"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.06451607px;font-family:FreeMono;-inkscape-font-specification:'FreeMono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:1.61292434px"
            y="104.67725"
-           x="98.13884"
+           x="87.231949"
            id="tspan4691-9-0-0"
            sodipodi:role="line">assume-reference</tspan></text>
     </g>
