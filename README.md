@@ -124,6 +124,7 @@ gene (if possible), and this whole region is included in the output.
 If `assume-reference` is selected as `blast-output` and the assembly is smaller
 than the reference gene, we assume that the missing parts of the assmbly are
 identical to the reference gene, and this is included in the output.
-In the case where the assembly and the gene of interest
-`hit` will only include the region from the contig that is included in the
-blast hit, even if both the contig and the gene of interest extend further.
+
+If `hit` is selected, the output will only include the region from the contig
+that is included in the blast hit, even if both the contig and the gene of
+interest extend further.
