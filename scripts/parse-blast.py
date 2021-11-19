@@ -78,7 +78,7 @@ def get_contig(contigs, name):
         raise RuntimeError(f'Contig "{name}" not found in "{contigs}"')
 
 
-def record_to_fasta(record, contigs):
+def record_to_fasta(record, contigs, output):
     """ Return a record in fasta format
 
     Includes some messing about with the blast data to put information about
@@ -99,16 +99,22 @@ def record_to_fasta(record, contigs):
 
     # Determine the name based on the blast hit
     name = f'{alignment.hit_def}:{hsp.sbjct_start}-{hsp.sbjct_end}'
-    # Extract the region of the hit, PLUS non-matching regions in the subject
-    # that overlap the query.
-    seq = extract_hit_region(
-            contig,
-            hsp.sbjct_start,
-            hsp.sbjct_end,
-            record.query_length,
-            hsp.query_start,
-            hsp.query_end
-    )
+
+    if output == 'extend':
+        # Extract the region of the hit, PLUS non-matching regions in the subject
+        # that overlap the query.
+        seq = extract_hit_region(
+                contig,
+                hsp.sbjct_start,
+                hsp.sbjct_end,
+                record.query_length,
+                hsp.query_start,
+                hsp.query_end
+        )
+    elif output == 'hit':
+        seq = hsp.sbjct
+    elif output == 'assume-reference':
+        raise NotImplemented
 
     return f'>{name} ({record.query})\n{seq}'
 
@@ -129,7 +135,7 @@ def main(args):
         if args.fasta:
             with open(args.fasta, 'w') as fout:
                 for record in records:
-                    print(record_to_fasta(record, args.contigs), file=fout)
+                    print(record_to_fasta(record, args.contigs, args.blast_output), file=fout)
 
         # If we need to write the genes
         if args.genes:
@@ -141,7 +147,8 @@ def main(args):
                     query_name = f'{args.gene_prefix}_{query_name}'
                 fname = f'{args.genes}/{query_name}.fasta'
                 with open(fname, 'a') as fout:
-                    print(record_to_fasta(record, args.contigs), file=fout)
+                    fasta = record_to_fasta(record, args.contigs, args.blast_output)
+                    print(fasta, file=fout)
 
 
 if __name__ == '__main__':
@@ -163,6 +170,24 @@ if __name__ == '__main__':
     )
     parser.add_argument('--gene-prefix', required=False,
         help='Prefix for the per-gene output file names')
+    parser.add_argument('--blast-output',
+        choices = ['hit', 'extend', 'assume-reference'],
+        help=
+            """
+            How to determine the final output from the blast hits.
+
+            hit:                Only included the regions that are part of the
+                                blast hit.
+
+            extend:             Include regions from the assembly that do not
+                                match until it is the same size as the gene of
+                                interest.
+
+            assume-reference:   Assume that any part that is missing from the
+                                assembly is equal to the reference, and
+                                append this to the output.
+            """
+        )
 
     args = parser.parse_args()
     main(args)

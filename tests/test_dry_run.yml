@@ -28,6 +28,9 @@
       - 'input: tests/data/GM24385_ASL.bam$'
       # Test whether hifiasm-flags are included in the command
       - 'hifiasm -o GM24385/assembly/GM24385 .* -f0'
+      # Test wether blast-output is set to 'hit' if not specified in the
+      # configuration
+      - 'parse-blast.py .* --blast-output hit'
     must_not_contain:
       - rror
     must_not_contain_regex:

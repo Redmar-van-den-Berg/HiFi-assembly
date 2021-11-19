@@ -111,6 +111,8 @@ class hifiasm():
 # Set default values
 if 'hifiasm-output' not in config:
     config['hifiasm-output'] = 'r_utg'
+if 'blast-output' not in config:
+    config['blast-output'] = 'hit'
 
 # Make sure hifiasm-output is always a list
 if isinstance(config['hifiasm-output'], str):

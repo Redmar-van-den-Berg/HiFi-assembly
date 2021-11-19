@@ -216,6 +216,8 @@ rule parse_blast_results:
         genes = config.get('genes', ''), # Not actually used in the script
         folder = rules.make_blast_db.output.folder,
         script = srcdir('scripts/parse-blast.py')
+    params:
+        blast_output = config['blast-output']
     output:
         json = '{sample}/blast/{sample}_contigs_blast.json',
     log:
@@ -234,5 +236,6 @@ rule parse_blast_results:
             --genes {input.folder} \
             --gene-prefix {wildcards.sample} \
             --contigs {input.contigs} \
+            --blast-output {params.blast_output} \
             2>> {log}
     """

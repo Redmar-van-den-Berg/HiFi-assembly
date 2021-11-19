@@ -49,7 +49,7 @@ The following settings are available for the pipeline, place them under the
 | hifiasm-flags        | Optional list     | List of flags to pass to HiFiasm        |
 | hifiasm-output       | Optional list     | List of HiFiasm output files to use. Choose any combination of `p_utg`, `p_utg`, `p_ctg`, `a_ctg`, `hap1` or `hap2`, default is `r_utg`. Note that `p_ctg` can contain phase switching |
 | hifiasm-write-ec     | Optional boolean  | HiFiasm writes error corrected reads to FASTA. If `reference` is specified, the reads are also mapped to the reference |
-| blast-output         | Optional string   | Type of blast output to use, choose from `hit`, `extend` or `assume-reference`. See below for an explanation |
+| blast-output         | Optional string   | Type of blast output to use, choose from `hit` (default), `extend` or `assume-reference`. See below for an explanation |
 
 ### Multiple bam files per sample
 If you have multiple bam files per sample, you can utilise the
