@@ -297,7 +297,7 @@
       - RuntimeError
       - 'hap1,hap2 output is not available in combination with "-l0"'
 
-# Test if blast-output: extend is passed to the apropriate script
+# Test if blast-output: extend is passed to the appropriate script
 - name: dry-run-extend
   tags:
     - dry-run
