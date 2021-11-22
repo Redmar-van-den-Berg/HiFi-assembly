@@ -34,6 +34,8 @@ jobs:
           - dry-run-two-outputs
           - dry-run-hap1-hap2
           - dry-run-l0-hap1
+          - dry-run-extend
+          - dry-run-assume-reference
           - integration-vanilla
           - integration-two-bamfiles
           - integration-reference-only
@@ -46,6 +48,8 @@ jobs:
           - integration-write-ec-a_ctg
           - integration-two-outputs
           - integration-hap1-hap2
+          - integration-extend
+          - integration-assume-reference
     steps:
     - uses: actions/checkout@v2
 
