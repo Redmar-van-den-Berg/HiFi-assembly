@@ -213,7 +213,7 @@ rule parse_blast_results:
     input:
         blast_results = rules.blast_contigs.output,
         contigs = rules.assembly_to_fasta.output,
-        genes = config.get('genes', ''), # Not actually used in the script
+        genes = config.get('genes', ''),
         folder = rules.make_blast_db.output.folder,
         script = srcdir('scripts/parse-blast.py')
     params:
@@ -227,7 +227,7 @@ rule parse_blast_results:
     shell: """
 
         # Make sure there are no fasta files, since script appends to output files
-        rm -f {input.folder}/*.fasta 2> {log}
+        rm -f {input.folder}/*.fasta &> {log}
 
         python3 {input.script} \
             --database {input.blast_results} \
@@ -237,5 +237,5 @@ rule parse_blast_results:
             --gene-prefix {wildcards.sample} \
             --contigs {input.contigs} \
             --blast-output {params.blast_output} \
-            2>> {log}
+            &>> {log}
     """
