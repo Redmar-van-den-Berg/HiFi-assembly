@@ -319,3 +319,33 @@
         - h1tg000001l
         # hap2
         - h2tg000001l
+
+# Configuration file where we specify blast-output: extend
+- name: integration-extend
+  tags:
+    - integration
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_extend.yml
+      --snakefile Snakefile
+  exit_code: 0
+
+# Configuration file where we specify blast-output: assume-reference
+- name: integration-assume-reference
+  tags:
+    - integration
+  command: >
+    snakemake
+      --reason
+      --printshellcmds
+      --jobs 1
+      --latency-wait 120
+      --use-singularity --singularity-args ' --cleanenv --bind /tmp'
+      --config pepfile=tests/pep/project_config_assume_reference.yml
+      --snakefile Snakefile
+  exit_code: 0
