@@ -314,3 +314,21 @@
       # Test wether blast-output is set to 'extend' if this is specified
       # configuration
       - 'parse-blast.py .* --blast-output extend'
+
+# Test if blast-output: assume-reference is passed to the appropriate script
+- name: dry-run-assume-reference
+  tags:
+    - dry-run
+  command: >
+    snakemake
+      --dryrun
+      --reason
+      --printshellcmds
+      --config pepfile=tests/pep/project_config_assume_reference.yml
+      --snakefile Snakefile
+  exit_code: 0
+  stdout:
+    contains_regex:
+      # Test wether blast-output is set to 'extend' if this is specified
+      # configuration
+      - 'parse-blast.py .* --blast-output assume-reference'
