@@ -60,6 +60,7 @@ extend_cases = [
         # Test case where the hit is smaller than seq1. In this case,
         # we should only return the sequence content of the blast hit
         ('AAAAA', 2, 5, 'TAAAA', 2, 5, 'AAAA'),
+        ('AAAAA', 1, 4, 'AAAAT', 1, 4, 'AAAA'),
         # Test case where the seq1 matches, but is larger, than the reference
         ('TCGAAAAATCG', 4, 8, 'AAAAA', 1, 5, 'AAAAA'),
         # Test case where seq1 matches, but is larger (at the beginning) than
@@ -72,6 +73,12 @@ extend_cases = [
         ('AAAAA', 1, 5, 'AAAAATCG', 1, 5, 'AAAAATCG'),
         # Test case where the start of seq1 should be extended with content from seq2
         ('AAAAA', 1, 5, 'CTGAAAAA', 4, 8, 'CTGAAAAA'),
+        # Test case where seq1 partly overlaps, and should partly be extended
+        # at the end
+        ('CTGAAAAA', 4, 8, 'AAAAACTG', 1, 5, 'AAAAACTG'),
+        # Test case where seq1 partly overlaps, and should partly be extended
+        # at the start
+        ('AAAAACTG', 1, 5, 'CTGAAAAA', 4, 8, 'CTGAAAAA'),
 ]
 
 @pytest.mark.parametrize('seq1,start1,end1,seq2,start2,end2,expected', extend_cases)
