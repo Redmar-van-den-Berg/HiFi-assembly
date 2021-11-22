@@ -57,6 +57,17 @@ def test_extract_hit_region(seq1, start1, end1, seq2_len, start2, end2, expected
 extend_cases = [
         # Test case where both seq1 and seq2 are identical, and fully match
         ('AAAAA', 1, 5, 'AAAAA', 1, 5, 'AAAAA'),
+        # Test case where the hit is smaller than seq1. In this case,
+        # we should only return the sequence content of the blast hit
+        ('AAAAA', 2, 5, 'TAAAA', 2, 5, 'AAAA'),
+        # Test case where the seq1 matches, but is larger, than the reference
+        ('TCGAAAAATCG', 4, 8, 'AAAAA', 1, 5, 'AAAAA'),
+        # Test case where seq1 matches, but is larger (at the beginning) than
+        # the reference
+        ('TCGAAAAA', 4, 8, 'AAAAA', 1, 5, 'AAAAA'),
+        # Test case where seq1 matches, but is larger (at the end) than
+        # the reference
+        ('AAAAATCG', 1, 5, 'AAAAA', 1, 5, 'AAAAA'),
 ]
 
 @pytest.mark.parametrize('seq1,start1,end1,seq2,start2,end2,expected', extend_cases)

@@ -27,6 +27,10 @@ def extend_hit_reference(seq1, start1, end1, seq2, start2, end2):
         If the hit covers all of seq1, but seq1 is shorter than seq2, assume
         the missing sequences from seq1 are identical, and add those sequences.
     """
-    # If the hit covers all of seq1, we don't have to append anything.
-    if len(seq1) == end1 - start1 + 1:
-        return seq1
+    # If the hit covers all of seq2, we simply return the region from seq1 that
+    # matches
+    if len(seq2) == end1 - start1 + 1:
+        return seq1[start1 -1: end1]
+
+    # If the hit is smaller than seq1
+    return seq1[start1 - 1: end1]
