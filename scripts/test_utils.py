@@ -68,6 +68,8 @@ extend_cases = [
         # Test case where seq1 matches, but is larger (at the end) than
         # the reference
         ('AAAAATCG', 1, 5, 'AAAAA', 1, 5, 'AAAAA'),
+        # Test case where the end of seq1 should be extended with content from seq2
+        ('AAAAA', 1, 5, 'AAAAATCG', 1, 5, 'AAAAATCG'),
 ]
 
 @pytest.mark.parametrize('seq1,start1,end1,seq2,start2,end2,expected', extend_cases)
