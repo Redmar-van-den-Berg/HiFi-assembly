@@ -70,6 +70,8 @@ extend_cases = [
         ('AAAAATCG', 1, 5, 'AAAAA', 1, 5, 'AAAAA'),
         # Test case where the end of seq1 should be extended with content from seq2
         ('AAAAA', 1, 5, 'AAAAATCG', 1, 5, 'AAAAATCG'),
+        # Test case where the start of seq1 should be extended with content from seq2
+        ('AAAAA', 1, 5, 'CTGAAAAA', 4, 8, 'CTGAAAAA'),
 ]
 
 @pytest.mark.parametrize('seq1,start1,end1,seq2,start2,end2,expected', extend_cases)

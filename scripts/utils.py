@@ -37,6 +37,9 @@ def extend_hit_reference(seq1, start1, end1, seq2, start2, end2):
         # If seq2 extend beyond the blast hit
         if len(seq2) > end2:
             return seq1[start1 - 1: end1] + seq2[end2:]
+        # If seq2 extend before the blast hit
+        if start2 > 1:
+            return seq2[:start2 - 1] + seq1[start1 - 1: end1]
 
     # If the hit is smaller than seq1
     return seq1[start1 - 1: end1]
