@@ -19,3 +19,14 @@ def extract_hit_region(seq1, start1, end1, seq2_length, start2, end2):
     # Return the slice of seq1 that contains both the original hit and the
     # extension
     return seq1[extended_begin:extended_end]
+
+def extend_hit_reference(seq1, start1, end1, seq2, start2, end2):
+    """ Extend the hit on seq1, assuming missing content is identical to seq2
+
+
+        If the hit covers all of seq1, but seq1 is shorter than seq2, assume
+        the missing sequences from seq1 are identical, and add those sequences.
+    """
+    # If the hit covers all of seq1, we don't have to append anything.
+    if len(seq1) == end1 - start1 + 1:
+        return seq1

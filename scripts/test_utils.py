@@ -1,6 +1,6 @@
 import pytest
 
-from utils import extract_hit_region
+from utils import extract_hit_region, extend_hit_reference
 
 # These are the test cases for extracting regions of seq2 from seq1. This
 # assumes that seq2 has already been blasted against seq1, which is the source
@@ -38,6 +38,27 @@ extract_cases = [
         ('GGGGGAAAAA', 6, 10, 14, 10, 14, 'GGGGGAAAAA'),
 ]
 
-@pytest.mark.parametrize('seq1,start1,end1,seq2,start2,end2,expected', extract_cases)
-def test_extract_hit_region(seq1, start1, end1, seq2, start2, end2, expected):
-    assert extract_hit_region(seq1, start1, end1, seq2, start2, end2) == expected
+@pytest.mark.parametrize('seq1,start1,end1,seq2_len,start2,end2,expected', extract_cases)
+def test_extract_hit_region(seq1, start1, end1, seq2_len, start2, end2, expected):
+    assert extract_hit_region(seq1, start1, end1, seq2_len, start2, end2) == expected
+
+
+# These are the test cases for extending seq1 with sequences from seq2. This
+# assumes that seq2 has already been blasted against seq1, which is the source
+# of start1, end1 and start2, end2
+# The format is:
+## - seq1
+## - start1
+## - end1
+## - seq2
+## - start2
+## - end2
+## - expected
+extend_cases = [
+        # Test case where both seq1 and seq2 are identical, and fully match
+        ('AAAAA', 1, 5, 'AAAAA', 1, 5, 'AAAAA'),
+]
+
+@pytest.mark.parametrize('seq1,start1,end1,seq2,start2,end2,expected', extend_cases)
+def test_extend_hit_reference(seq1, start1, end1, seq2, start2, end2, expected):
+    assert extend_hit_reference(seq1, start1, end1, seq2, start2, end2) == expected
