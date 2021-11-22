@@ -8,7 +8,7 @@ from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio import SeqIO
 from pyBlast import pyBlastFlat
 
-from utils import extract_hit_region
+from utils import extract_hit_region, extend_hit_reference
 
 def jsonify(record):
     """ Fetch some useful values from the alignment record """
@@ -69,16 +69,16 @@ def get_best_hits(pb):
     return list(best.values())
 
 
-def get_contig(contigs, name):
-    """ Get the contig with name from contigs """
-    for record in SeqIO.parse(contigs, 'fasta'):
+def get_sequence(filename, name):
+    """ Get the sequence with name from filename"""
+    for record in SeqIO.parse(filename, 'fasta'):
         if record.id == name:
             return record.seq
     else:
-        raise RuntimeError(f'Contig "{name}" not found in "{contigs}"')
+        raise RuntimeError(f'Contig "{name}" not found in "{filename}"')
 
 
-def record_to_fasta(record, contigs, output):
+def record_to_fasta(record, contigs, genes, output):
     """ Return a record in fasta format
 
     Includes some messing about with the blast data to put information about
@@ -95,7 +95,7 @@ def record_to_fasta(record, contigs, output):
     hsp = alignment.hsp
 
     # Get the full sequence of the contig from the contigs fasta file
-    contig = get_contig(contigs, alignment.hit_def)
+    contig = get_sequence(contigs, alignment.hit_def)
 
     # Determine the name based on the blast hit
     name = f'{alignment.hit_def}:{hsp.sbjct_start}-{hsp.sbjct_end}'
@@ -114,7 +114,15 @@ def record_to_fasta(record, contigs, output):
     elif output == 'hit':
         seq = hsp.sbjct
     elif output == 'assume-reference':
-        raise NotImplemented
+        gene = get_sequence(genes, record.query)
+        seq = extend_hit_reference(
+                contig,
+                hsp.sbjct_start,
+                hsp.sbjct_end,
+                record.query,
+                hsp.query_start,
+                hsp.query_end
+        )
 
     return f'>{name} ({record.query})\n{seq}'
 
@@ -135,7 +143,8 @@ def main(args):
         if args.fasta:
             with open(args.fasta, 'w') as fout:
                 for record in records:
-                    print(record_to_fasta(record, args.contigs, args.blast_output), file=fout)
+                    fasta = record_to_fasta(record, args.contigs, args.query, args.blast_output)
+                    print(fasta, file=fout)
 
         # If we need to write the genes
         if args.genes:
@@ -147,7 +156,7 @@ def main(args):
                     query_name = f'{args.gene_prefix}_{query_name}'
                 fname = f'{args.genes}/{query_name}.fasta'
                 with open(fname, 'a') as fout:
-                    fasta = record_to_fasta(record, args.contigs, args.blast_output)
+                    fasta = record_to_fasta(record, args.contigs, args.query, args.blast_output)
                     print(fasta, file=fout)
 
 
